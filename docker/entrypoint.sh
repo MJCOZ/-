@@ -9,9 +9,10 @@ if [ -n "${PORT}" ] && [ "${PORT}" != "80" ]; then
     sed -ri "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 fi
 
-# توليد مفتاح التطبيق إن لم يكن موجوداً
-if [ -z "${APP_KEY}" ] && ! grep -q "^APP_KEY=base64" .env 2>/dev/null; then
-    php artisan key:generate --force || true
+# توليد مفتاح التطبيق إن لم يُضبط عبر البيئة (يُفضّل ضبط APP_KEY في إعدادات الاستضافة)
+if [ -z "${APP_KEY}" ]; then
+    [ -f .env ] || echo "APP_KEY=" > .env
+    php artisan key:generate --force
 fi
 
 # قاعدة بيانات SQLite: إنشاء الملف إن كان هذا هو الاتصال
