@@ -12,7 +12,7 @@
     @include('admin.partials.nav', ['active' => 'titles'])
 
     <div class="bg-dark-2 p-4 rounded">
-        <form method="POST"
+        <form method="POST" enctype="multipart/form-data"
               action="{{ $editing ? route('admin.titles.update', $title) : route('admin.titles.store') }}">
             @csrf
             @if ($editing) @method('PUT') @endif
@@ -53,16 +53,66 @@
                     @error('release_year') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="col-12">
-                    <label class="form-label">رابط البوستر <small class="text-secondary">(اختياري — يُولّد تلقائياً إن تُرك فارغاً)</small></label>
+                <div class="col-md-8">
+                    <label class="form-label">رفع صورة البوستر <small class="text-secondary">(JPG/PNG/WEBP حتى 4MB)</small></label>
+                    <input type="file" name="poster_file" accept="image/*"
+                           class="form-control bg-dark text-light border-secondary @error('poster_file') is-invalid @enderror">
+                    @error('poster_file') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="form-text text-secondary">أو ضع رابطاً خارجياً بالأسفل. لو تركت الكل فارغاً يُولّد بوستر تلقائي.</div>
                     <input type="text" name="poster" value="{{ old('poster', $title->poster) }}"
-                           class="form-control bg-dark text-light border-secondary" placeholder="https://...">
+                           class="form-control bg-dark text-light border-secondary mt-2" placeholder="https://...">
+                </div>
+                <div class="col-md-4 text-center">
+                    <label class="form-label d-block">المعاينة الحالية</label>
+                    <img src="{{ $title->posterUrl() }}" alt="poster" class="img-fluid rounded" style="max-height: 180px;">
                 </div>
 
                 <div class="col-12">
                     <label class="form-label">الوصف</label>
                     <textarea name="description" rows="4"
                               class="form-control bg-dark text-light border-secondary">{{ old('description', $title->description) }}</textarea>
+                </div>
+
+                {{-- قسم التقييمات و"شاهدته" --}}
+                <div class="col-12"><hr class="border-secondary"><h5 class="text-warning"><i class="bi bi-star"></i> التقييمات</h5></div>
+
+                <div class="col-md-4">
+                    <label class="form-label">🟡 تقييم IMDb <small class="text-secondary">(0 - 10)</small></label>
+                    <input type="number" step="0.1" min="0" max="10" name="imdb_rating"
+                           value="{{ old('imdb_rating', $title->imdb_rating) }}"
+                           class="form-control bg-dark text-light border-secondary @error('imdb_rating') is-invalid @enderror">
+                    @error('imdb_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">🍅 Rotten Tomatoes <small class="text-secondary">(0 - 100%)</small></label>
+                    <input type="number" min="0" max="100" name="rt_rating"
+                           value="{{ old('rt_rating', $title->rt_rating) }}"
+                           class="form-control bg-dark text-light border-secondary @error('rt_rating') is-invalid @enderror">
+                    @error('rt_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">⭐ تقييمي الشخصي <small class="text-secondary">(1 - 10)</small></label>
+                    <input type="number" min="1" max="10" name="personal_rating"
+                           value="{{ old('personal_rating', $title->personal_rating) }}"
+                           class="form-control bg-dark text-light border-secondary @error('personal_rating') is-invalid @enderror">
+                    @error('personal_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-check form-switch mt-2">
+                        <input type="checkbox" name="watched" value="1" id="watched" class="form-check-input"
+                               @checked(old('watched', $title->watched))>
+                        <label class="form-check-label" for="watched">✅ شاهدت هذا العمل (يظهر في صفحة "شاهدتها")</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">تاريخ المشاهدة <small class="text-secondary">(اختياري)</small></label>
+                    <input type="date" name="watched_at"
+                           value="{{ old('watched_at', $title->watched_at?->format('Y-m-d')) }}"
+                           class="form-control bg-dark text-light border-secondary">
                 </div>
             </div>
 

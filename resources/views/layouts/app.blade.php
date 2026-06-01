@@ -57,6 +57,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">الرئيسية</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/titles') }}">الأفلام والمسلسلات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('watched.index') }}"><i class="bi bi-eye"></i> شاهدتها</a></li>
                 </ul>
                 <form class="d-flex me-lg-3" role="search" action="{{ url('/titles') }}" method="GET">
                     <input class="form-control form-control-sm bg-dark text-light border-secondary" type="search"

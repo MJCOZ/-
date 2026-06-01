@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Title extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'genre_id',
         'name',
@@ -15,7 +18,29 @@ class Title extends Model
         'description',
         'poster',
         'release_year',
+        'imdb_rating',
+        'rt_rating',
+        'personal_rating',
+        'watched',
+        'watched_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'watched' => 'boolean',
+            'watched_at' => 'date',
+            'imdb_rating' => 'decimal:1',
+        ];
+    }
+
+    /**
+     * نطاق: الأعمال التي شاهدها المالك.
+     */
+    public function scopeWatched($query)
+    {
+        return $query->where('watched', true);
+    }
 
     /**
      * العمل ينتمي لتصنيف واحد.
@@ -50,14 +75,18 @@ class Title extends Model
     }
 
     /**
-     * رابط البوستر: ملف محفوظ إن وُجد، وإلا بوستر مولّد محلياً.
+     * رابط البوستر: رابط خارجي أو ملف مرفوع أو بوستر مولّد محلياً.
      */
     public function posterUrl(): string
     {
-        if ($this->poster && ! str_starts_with($this->poster, 'http')) {
-            return asset('storage/' . $this->poster);
+        if (blank($this->poster)) {
+            return route('titles.poster', $this);
         }
 
-        return route('titles.poster', $this);
+        if (str_starts_with($this->poster, 'http')) {
+            return $this->poster;
+        }
+
+        return asset('storage/' . $this->poster);
     }
 }

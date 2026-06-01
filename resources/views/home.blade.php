@@ -27,7 +27,7 @@
     <section class="mb-5">
         <div class="d-flex flex-wrap gap-2">
             @foreach ($genres as $genre)
-                <a href="{{ url('/titles?genre='.$genre->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <a href="{{ route('genres.show', $genre) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                     {{ $genre->name }} <span class="badge bg-secondary">{{ $genre->titles_count }}</span>
                 </a>
             @endforeach

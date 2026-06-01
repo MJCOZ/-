@@ -31,3 +31,4 @@ Thumbs.db
 /e2e.cjs
 /admin-e2e.cjs
 /authz-check.cjs
+/features-e2e.cjs

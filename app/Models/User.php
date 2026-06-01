@@ -51,6 +51,14 @@ class User extends Authenticatable
     }
 
     /**
+     * تعليقات المستخدم على المراجعات.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * هل يملك المستخدم الدور المحدد؟
      */
     public function hasRole(string $role): bool

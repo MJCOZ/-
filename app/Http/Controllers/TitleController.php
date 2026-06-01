@@ -38,7 +38,12 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
-        $title->load(['genre', 'reviews.user']);
+        $title->load([
+            'genre',
+            'reviews.user',
+            'reviews.comments.user',
+            'reviews.likes',
+        ]);
         $avg = $title->averageRating();
 
         // مراجعة المستخدم الحالي إن وُجدت
@@ -46,6 +51,14 @@ class TitleController extends Controller
             ? $title->reviews->firstWhere('user_id', auth()->id())
             : null;
 
-        return view('titles.show', compact('title', 'avg', 'myReview'));
+        // أعمال مشابهة (نفس التصنيف)
+        $similar = Title::where('id', '!=', $title->id)
+            ->when($title->genre_id, fn ($q) => $q->where('genre_id', $title->genre_id))
+            ->withAvg('reviews', 'rating')
+            ->inRandomOrder()
+            ->take(6)
+            ->get();
+
+        return view('titles.show', compact('title', 'avg', 'myReview', 'similar'));
     }
 }

@@ -6,16 +6,22 @@ use App\Http\Controllers\Admin\TitleController as AdminTitleController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ReviewLikeController;
 use App\Http\Controllers\TitleController;
+use App\Http\Controllers\WatchedController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/titles', [TitleController::class, 'index'])->name('titles.index');
+Route::get('/watched', [WatchedController::class, 'index'])->name('watched.index');
+Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('genres.show');
 Route::get('/titles/{title}/poster', [PosterController::class, 'show'])->name('titles.poster');
 Route::get('/titles/{title}', [TitleController::class, 'show'])->name('titles.show');
 
@@ -35,10 +41,17 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::get('/profile', [ProfileController::class, 'show'])
     ->middleware('auth')->name('profile');
 
-// المراجعات (المسجّلين فقط)
+// المراجعات والتفاعل (المسجّلين فقط)
 Route::middleware('auth')->group(function () {
     Route::post('/titles/{title}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    // الردود على المراجعات
+    Route::post('/reviews/{review}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // التصويت (مفيد/غير مفيد)
+    Route::post('/reviews/{review}/vote', [ReviewLikeController::class, 'store'])->name('reviews.vote');
 });
 
 // لوحة الأدمن

@@ -13,12 +13,17 @@
             <span class="badge {{ $title->isMovie() ? 'bg-primary' : 'bg-success' }} mb-2">
                 {{ $title->isMovie() ? 'فيلم' : 'مسلسل' }}
             </span>
+            @if ($title->watched)
+                <span class="badge bg-warning text-dark mb-2"><i class="bi bi-eye-fill"></i> شاهدتها</span>
+            @endif
             <h1 class="fw-bold">{{ $title->name }}</h1>
 
-            <div class="d-flex flex-wrap gap-3 align-items-center text-secondary mb-3">
+            <div class="d-flex flex-wrap gap-3 align-items-center text-secondary mb-2">
                 <span><i class="bi bi-calendar3"></i> {{ $title->release_year }}</span>
                 @if ($title->genre)
-                    <span><i class="bi bi-tag"></i> {{ $title->genre->name }}</span>
+                    <a href="{{ route('genres.show', $title->genre) }}" class="text-warning">
+                        <i class="bi bi-tag"></i> {{ $title->genre->name }}
+                    </a>
                 @endif
                 <span>
                     @include('partials.stars', ['rating' => $avg])
@@ -27,7 +32,10 @@
                 </span>
             </div>
 
-            <p class="lead">{{ $title->description }}</p>
+            {{-- تقييمات IMDb / Rotten Tomatoes / الشخصي --}}
+            @include('partials.external-ratings', ['title' => $title])
+
+            <p class="lead mt-2">{{ $title->description }}</p>
         </div>
     </div>
 
@@ -78,35 +86,24 @@
         @endauth
 
         @forelse ($title->reviews->sortByDesc('created_at') as $review)
-            <div class="bg-dark-2 p-3 rounded mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div>
-                        <i class="bi bi-person-circle"></i>
-                        <strong>{{ $review->user->name }}</strong>
-                        @auth
-                            @if ($review->user_id === auth()->id())
-                                <span class="badge bg-warning text-dark ms-1">أنت</span>
-                            @endif
-                        @endauth
-                        <small class="text-secondary ms-2">{{ $review->created_at->diffForHumans() }}</small>
-                    </div>
-                    @include('partials.stars', ['rating' => $review->rating])
-                </div>
-                <p class="mb-0">{{ $review->body }}</p>
-                @auth
-                    @if ($review->user_id === auth()->id())
-                        <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-2"
-                              onsubmit="return confirm('هل تريد حذف مراجعتك؟');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> حذف</button>
-                        </form>
-                    @endif
-                @endauth
-            </div>
+            @include('partials.review', ['review' => $review])
         @empty
             <div class="alert alert-secondary text-center">لا توجد مراجعات بعد. كن أول من يكتب رأيه!</div>
         @endforelse
     </section>
+
+    {{-- أعمال مشابهة --}}
+    @if ($similar->isNotEmpty())
+        <section class="mt-5">
+            <h3 class="mb-3"><i class="bi bi-collection text-warning"></i> أعمال مشابهة</h3>
+            <div class="row g-3">
+                @foreach ($similar as $item)
+                    <div class="col-6 col-md-4 col-lg-2">
+                        @include('partials.title-card', ['title' => $item])
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
 
 @endsection

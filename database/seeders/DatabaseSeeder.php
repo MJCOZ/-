@@ -38,42 +38,47 @@ class DatabaseSeeder extends Seeder
             return [$name => $genre];
         });
 
-        // الأعمال (أفلام ومسلسلات)
+        // الأعمال (أفلام ومسلسلات) — مع تقييمات و"شاهدتها" لبعضها
         $titles = [
-            ['name' => 'البداية', 'type' => 'movie', 'genre' => 'خيال علمي', 'year' => 2010, 'desc' => 'لص يسرق أسرار الشركات عبر تقنية اقتحام الأحلام، يُكلَّف بمهمة عكسية: زرع فكرة في عقل هدف.'],
-            ['name' => 'الأب الروحي', 'type' => 'movie', 'genre' => 'جريمة', 'year' => 1972, 'desc' => 'ملحمة عن عائلة مافيا إيطالية في أمريكا وانتقال السلطة من الأب إلى أصغر أبنائه.'],
-            ['name' => 'الفارس الأسود', 'type' => 'movie', 'genre' => 'أكشن', 'year' => 2008, 'desc' => 'بطل المدينة المقنّع يواجه مجرماً فوضوياً يهدّد المدينة بالكامل في صراع نفسي عنيف.'],
-            ['name' => 'بين النجوم', 'type' => 'movie', 'genre' => 'خيال علمي', 'year' => 2014, 'desc' => 'فريق من روّاد الفضاء يعبرون ثقباً دودياً بحثاً عن موطن جديد للبشرية.'],
-            ['name' => 'الصدمة', 'type' => 'movie', 'genre' => 'دراما', 'year' => 1994, 'desc' => 'قصة أمل وصداقة بين سجينين داخل سجن صارم على مدى عقود.'],
+            ['name' => 'البداية', 'type' => 'movie', 'genre' => 'خيال علمي', 'year' => 2010, 'desc' => 'لص يسرق أسرار الشركات عبر تقنية اقتحام الأحلام، يُكلَّف بمهمة عكسية: زرع فكرة في عقل هدف.', 'imdb' => 8.8, 'rt' => 87, 'personal' => 9, 'watched' => true],
+            ['name' => 'الأب الروحي', 'type' => 'movie', 'genre' => 'جريمة', 'year' => 1972, 'desc' => 'ملحمة عن عائلة مافيا إيطالية في أمريكا وانتقال السلطة من الأب إلى أصغر أبنائه.', 'imdb' => 9.2, 'rt' => 97, 'personal' => 10, 'watched' => true],
+            ['name' => 'الفارس الأسود', 'type' => 'movie', 'genre' => 'أكشن', 'year' => 2008, 'desc' => 'بطل المدينة المقنّع يواجه مجرماً فوضوياً يهدّد المدينة بالكامل في صراع نفسي عنيف.', 'imdb' => 9.0, 'rt' => 94, 'personal' => 9, 'watched' => true],
+            ['name' => 'بين النجوم', 'type' => 'movie', 'genre' => 'خيال علمي', 'year' => 2014, 'desc' => 'فريق من روّاد الفضاء يعبرون ثقباً دودياً بحثاً عن موطن جديد للبشرية.', 'imdb' => 8.7, 'rt' => 73, 'personal' => 8, 'watched' => true],
+            ['name' => 'الصدمة', 'type' => 'movie', 'genre' => 'دراما', 'year' => 1994, 'desc' => 'قصة أمل وصداقة بين سجينين داخل سجن صارم على مدى عقود.', 'imdb' => 9.3, 'rt' => 89, 'personal' => 10, 'watched' => true],
             ['name' => 'العرّاب الأخير', 'type' => 'movie', 'genre' => 'رعب', 'year' => 2019, 'desc' => 'عائلة تنتقل لمنزل ريفي قديم لتكتشف أنه يخفي ماضياً مرعباً.'],
 
-            ['name' => 'اللعبة الكبرى', 'type' => 'series', 'genre' => 'دراما', 'year' => 2011, 'desc' => 'صراع عائلات نبيلة على عرش مملكة خيالية وسط مؤامرات وخيانات وتنانين.'],
-            ['name' => 'الكسر', 'type' => 'series', 'genre' => 'جريمة', 'year' => 2008, 'desc' => 'مدرّس كيمياء يتحوّل إلى مصنّع مخدرات بعد تشخيصه بمرض خطير.'],
-            ['name' => 'الأشياء الغريبة', 'type' => 'series', 'genre' => 'خيال علمي', 'year' => 2016, 'desc' => 'مجموعة أطفال في بلدة صغيرة يواجهون قوى خارقة وأبعاداً مظلمة في الثمانينات.'],
+            ['name' => 'اللعبة الكبرى', 'type' => 'series', 'genre' => 'دراما', 'year' => 2011, 'desc' => 'صراع عائلات نبيلة على عرش مملكة خيالية وسط مؤامرات وخيانات وتنانين.', 'imdb' => 9.2, 'rt' => 89, 'personal' => 9, 'watched' => true],
+            ['name' => 'الكسر', 'type' => 'series', 'genre' => 'جريمة', 'year' => 2008, 'desc' => 'مدرّس كيمياء يتحوّل إلى مصنّع مخدرات بعد تشخيصه بمرض خطير.', 'imdb' => 9.5, 'rt' => 96, 'personal' => 10, 'watched' => true],
+            ['name' => 'الأشياء الغريبة', 'type' => 'series', 'genre' => 'خيال علمي', 'year' => 2016, 'desc' => 'مجموعة أطفال في بلدة صغيرة يواجهون قوى خارقة وأبعاداً مظلمة في الثمانينات.', 'imdb' => 8.7, 'rt' => 92, 'personal' => 8, 'watched' => true],
             ['name' => 'التاج', 'type' => 'series', 'genre' => 'دراما', 'year' => 2016, 'desc' => 'سيرة درامية عن حكم ملكة وصراعاتها السياسية والشخصية عبر العقود.'],
-            ['name' => 'مكتب التحقيقات', 'type' => 'series', 'genre' => 'كوميدي', 'year' => 2005, 'desc' => 'كوميديا توثيقية عن حياة موظفي مكتب مبيعات عادي بمواقف طريفة.'],
+            ['name' => 'مكتب التحقيقات', 'type' => 'series', 'genre' => 'كوميدي', 'year' => 2005, 'desc' => 'كوميديا توثيقية عن حياة موظفي مكتب مبيعات عادي بمواقف طريفة.', 'imdb' => 9.0, 'rt' => 81, 'personal' => 9, 'watched' => true],
             ['name' => 'الميت السائر', 'type' => 'series', 'genre' => 'رعب', 'year' => 2010, 'desc' => 'مجموعة ناجين يحاولون البقاء في عالم اجتاحته الزومبي.'],
         ];
 
-        $posters = [
-            '0f1a3e', '1b2a4c', '2c3b5d', '3d4c6e', '4e5d7f', '5f6e80',
-            '6a7f91', '7b80a2', '8c91b3', '9da2c4', 'aeb3d5', 'bfc4e6',
+        $comments = [
+            'اتفق معك تماماً!', 'وجهة نظر جميلة.', 'ما أعجبني بقدرك بس محترم.',
+            'صح لسانك، من أفضل الأعمال.', 'النهاية خذلتني بصراحة.', 'شكراً على المراجعة المفيدة.',
         ];
 
-        foreach ($titles as $i => $data) {
+        foreach ($titles as $data) {
             $title = Title::create([
                 'genre_id' => $genres[$data['genre']]->id,
                 'name' => $data['name'],
                 'type' => $data['type'],
                 'description' => $data['desc'],
                 'release_year' => $data['year'],
-                'poster' => 'https://placehold.co/400x600/' . $posters[$i] . '/ffffff?text=' . urlencode($data['name']),
+                'poster' => null, // يُستخدم البوستر المولّد تلقائياً
+                'imdb_rating' => $data['imdb'] ?? null,
+                'rt_rating' => $data['rt'] ?? null,
+                'personal_rating' => $data['personal'] ?? null,
+                'watched' => $data['watched'] ?? false,
+                'watched_at' => isset($data['watched']) ? now()->subDays(rand(1, 120)) : null,
             ]);
 
             // مراجعات عشوائية لكل عمل
             $reviewers = $users->random(rand(2, 5));
             foreach ($reviewers as $user) {
-                Review::create([
+                $review = Review::create([
                     'user_id' => $user->id,
                     'title_id' => $title->id,
                     'rating' => rand(3, 5),
@@ -85,6 +90,20 @@ class DatabaseSeeder extends Seeder
                         'تحفة فنية حقيقية، كل تفصيلة فيه مدروسة.',
                     ])->random(),
                 ]);
+
+                // ردود وإعجابات من مستخدمين آخرين
+                foreach ($users->where('id', '!=', $user->id)->random(rand(0, 3)) as $other) {
+                    if (rand(0, 1)) {
+                        $review->comments()->create([
+                            'user_id' => $other->id,
+                            'body' => collect($comments)->random(),
+                        ]);
+                    }
+                    $review->likes()->create([
+                        'user_id' => $other->id,
+                        'helpful' => (bool) rand(0, 1),
+                    ]);
+                }
             }
         }
     }
