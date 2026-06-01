@@ -71,7 +71,36 @@
         </div>
     </section>
 
-    {{-- موصى به لك (توصيات شخصية) --}}
+    {{-- أُضيف حديثاً --}}
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0"><i class="bi bi-stars text-warning"></i> أُضيف حديثاً</h3>
+            <a href="{{ url('/titles') }}" class="btn btn-link text-warning">عرض الكل</a>
+        </div>
+        <div class="row g-3">
+            @foreach ($latest as $title)
+                <div class="col-6 col-md-4 col-lg-2">
+                    @include('partials.title-card', ['title' => $title])
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- الأعلى تقييماً --}}
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0"><i class="bi bi-trophy-fill text-warning"></i> الأعلى تقييماً</h3>
+        </div>
+        <div class="row g-3">
+            @foreach ($topRated as $title)
+                <div class="col-6 col-md-4 col-lg-2">
+                    @include('partials.title-card', ['title' => $title])
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- ترشيحات / موصى به لك (توصيات شخصية) --}}
     @if ($recommended->isNotEmpty())
         <section class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -96,34 +125,5 @@
             </div>
         </section>
     @endif
-
-    {{-- الأعلى تقييماً --}}
-    <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0"><i class="bi bi-trophy-fill text-warning"></i> الأعلى تقييماً</h3>
-        </div>
-        <div class="row g-3">
-            @foreach ($topRated as $title)
-                <div class="col-6 col-md-4 col-lg-2">
-                    @include('partials.title-card', ['title' => $title])
-                </div>
-            @endforeach
-        </div>
-    </section>
-
-    {{-- أحدث الإضافات --}}
-    <section class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0"><i class="bi bi-stars text-warning"></i> أحدث الإضافات</h3>
-            <a href="{{ url('/titles') }}" class="btn btn-link text-warning">عرض الكل</a>
-        </div>
-        <div class="row g-3">
-            @foreach ($latest as $title)
-                <div class="col-6 col-md-4 col-lg-2">
-                    @include('partials.title-card', ['title' => $title])
-                </div>
-            @endforeach
-        </div>
-    </section>
 
 @endsection
