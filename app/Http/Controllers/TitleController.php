@@ -41,6 +41,11 @@ class TitleController extends Controller
         $title->load(['genre', 'reviews.user']);
         $avg = $title->averageRating();
 
-        return view('titles.show', compact('title', 'avg'));
+        // مراجعة المستخدم الحالي إن وُجدت
+        $myReview = auth()->check()
+            ? $title->reviews->firstWhere('user_id', auth()->id())
+            : null;
+
+        return view('titles.show', compact('title', 'avg', 'myReview'));
     }
 }

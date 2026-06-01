@@ -28,3 +28,4 @@ Thumbs.db
 
 # Screenshot helper (local only)
 /shot.cjs
+/e2e.cjs
