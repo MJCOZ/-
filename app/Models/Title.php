@@ -48,4 +48,16 @@ class Title extends Model
     {
         return $this->type === 'movie';
     }
+
+    /**
+     * رابط البوستر: ملف محفوظ إن وُجد، وإلا بوستر مولّد محلياً.
+     */
+    public function posterUrl(): string
+    {
+        if ($this->poster && ! str_starts_with($this->poster, 'http')) {
+            return asset('storage/' . $this->poster);
+        }
+
+        return route('titles.poster', $this);
+    }
 }
