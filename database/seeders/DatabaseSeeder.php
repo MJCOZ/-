@@ -24,20 +24,30 @@ class DatabaseSeeder extends Seeder
         }
 
         // حساب المدير — يمكن ضبطه عبر متغيّرات البيئة عند النشر
-        $admin = User::factory()->create([
+        $admin = User::create([
             'name' => 'أحمد',
             'email' => env('ADMIN_EMAIL', 'ahmed@example.com'),
             'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
             'role' => User::ROLE_ADMIN,
         ]);
 
-        $sara = User::factory()->create([
+        $sara = User::create([
             'name' => 'سارة',
             'email' => 'sara@example.com',
+            'password' => Hash::make('password'),
             'role' => User::ROLE_EDITOR,
         ]);
 
-        $users = User::factory(5)->create()->push($admin, $sara);
+        // مستخدمون عاديّون للبيانات التجريبية (بدون Faker ليعمل في الإنتاج)
+        $names = ['نورة', 'خالد', 'ريم', 'فهد', 'لمى'];
+        $extra = collect($names)->map(fn (string $name, int $i) => User::create([
+            'name' => $name,
+            'email' => 'user' . ($i + 1) . '@example.com',
+            'password' => Hash::make('password'),
+            'role' => User::ROLE_USER,
+        ]));
+
+        $users = $extra->push($admin, $sara);
 
         // التصنيفات
         $genreNames = ['أكشن', 'دراما', 'كوميدي', 'رعب', 'خيال علمي', 'جريمة', 'رومانسي', 'مغامرة'];
