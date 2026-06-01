@@ -1,0 +1,16 @@
+.git
+.github
+node_modules
+vendor
+tests
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+database/database.sqlite
+*.cjs
+.env
+.env.*
+!.env.example
+README.md
+DEPLOYMENT.md

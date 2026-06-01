@@ -1,0 +1,40 @@
+# تشغيل الموقع محلياً أو على سيرفر بأمر:  docker compose up -d --build
+# ثم افتح:  http://localhost:8080
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      APP_NAME: CineReview
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:-}          # ضع مفتاحاً ثابتاً في الإنتاج (php artisan key:generate --show)
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_LOCALE: ar
+      # SQLite الافتراضي (أبسط خيار). للتحويل إلى MySQL فعّل خدمة db بالأسفل وغيّر القيم.
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    volumes:
+      # حفظ قاعدة البيانات والملفات المرفوعة خارج الحاوية
+      - app-db:/var/www/html/database
+      - app-storage:/var/www/html/storage/app/public
+    restart: unless-stopped
+
+  # ── خيار MySQL (اختياري) ──
+  # db:
+  #   image: mysql:8
+  #   environment:
+  #     MYSQL_DATABASE: cinereview
+  #     MYSQL_USER: cinereview
+  #     MYSQL_PASSWORD: secret
+  #     MYSQL_ROOT_PASSWORD: rootsecret
+  #   volumes:
+  #     - db-data:/var/lib/mysql
+  #   restart: unless-stopped
+
+volumes:
+  app-db:
+  app-storage:
+  # db-data:
