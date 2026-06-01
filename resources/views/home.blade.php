@@ -71,6 +71,32 @@
         </div>
     </section>
 
+    {{-- موصى به لك (توصيات شخصية) --}}
+    @if ($recommended->isNotEmpty())
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0">
+                    <i class="bi bi-magic text-warning"></i>
+                    {{ $personalized ? 'موصى به لك' : 'اخترنا لك' }}
+                </h3>
+                @auth
+                    @if (! $personalized)
+                        <small class="text-secondary">قيّم بعض الأعمال لنخصّص لك التوصيات</small>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-link text-warning btn-sm">سجّل دخولك لتوصيات تخصّك</a>
+                @endauth
+            </div>
+            <div class="row g-3">
+                @foreach ($recommended as $title)
+                    <div class="col-6 col-md-4 col-lg-2">
+                        @include('partials.title-card', ['title' => $title])
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
     {{-- الأعلى تقييماً --}}
     <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
