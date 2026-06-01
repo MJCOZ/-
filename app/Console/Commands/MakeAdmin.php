@@ -6,9 +6,11 @@ use App\Models\User;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-#[Signature('app:make-admin {email : بريد المستخدم المراد ترقيته}')]
-#[Description('ترقية مستخدم إلى مدير عبر بريده الإلكتروني')]
+#[Signature('app:make-admin {email? : بريد المدير} {--password= : كلمة المرور} {--name= : الاسم}')]
+#[Description('إنشاء أو ترقية حساب مدير (يقرأ ADMIN_EMAIL/ADMIN_PASSWORD إن لم تُمرّر)')]
 class MakeAdmin extends Command
 {
     /**
@@ -16,16 +18,35 @@ class MakeAdmin extends Command
      */
     public function handle(): int
     {
-        $email = $this->argument('email');
-        $user = User::where('email', $email)->first();
+        $email = $this->argument('email') ?: env('ADMIN_EMAIL');
+        $password = $this->option('password') ?: env('ADMIN_PASSWORD');
+        $name = $this->option('name') ?: 'مدير';
 
-        if (! $user) {
-            $this->error("لا يوجد مستخدم بالبريد: {$email}");
+        if (blank($email)) {
+            $this->error('حدّد البريد عبر الوسيط أو متغيّر ADMIN_EMAIL.');
             return self::FAILURE;
         }
 
-        $user->update(['role' => User::ROLE_ADMIN]);
-        $this->info("تمت ترقية «{$user->name}» ({$email}) إلى مدير ✓");
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $updates = ['role' => User::ROLE_ADMIN];
+            if (filled($password)) {
+                $updates['password'] = Hash::make($password);
+            }
+            $user->update($updates);
+            $this->info("تمت ترقية «{$user->name}» ({$email}) إلى مدير ✓");
+
+            return self::SUCCESS;
+        }
+
+        User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make(filled($password) ? $password : Str::random(16)),
+            'role' => User::ROLE_ADMIN,
+        ]);
+        $this->info("تم إنشاء حساب مدير جديد ({$email}) ✓");
 
         return self::SUCCESS;
     }

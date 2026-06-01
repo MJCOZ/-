@@ -28,6 +28,11 @@ php artisan storage:link || true
 # تشغيل الهجرات وبذر بيانات أولية (البذر آمن للتكرار: يتوقف إن كانت القاعدة معبّأة)
 php artisan migrate --force --seed
 
+# ضمان وجود حساب المدير من متغيّرات البيئة (ADMIN_EMAIL / ADMIN_PASSWORD)
+if [ -n "${ADMIN_EMAIL}" ]; then
+    php artisan app:make-admin || true
+fi
+
 # تحسين الأداء للإنتاج (كاش الإعدادات والمسارات والواجهات)
 php artisan config:cache
 php artisan route:cache
