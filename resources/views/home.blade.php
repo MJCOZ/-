@@ -13,9 +13,14 @@
                     موقع CineReview يجمع لك أفضل الأفلام والمسلسلات مع آراء حقيقية من المشاهدين.
                     تصفّح الأعمال، اقرأ المراجعات، وأضف تقييمك الخاص.
                 </p>
-                <a href="{{ url('/titles') }}" class="btn btn-warning btn-lg">
-                    <i class="bi bi-collection-play"></i> تصفّح كل الأعمال
-                </a>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ route('movies.index') }}" class="btn btn-warning btn-lg">
+                        <i class="bi bi-camera-reels"></i> الأفلام
+                    </a>
+                    <a href="{{ route('series.index') }}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-tv"></i> المسلسلات
+                    </a>
+                </div>
             </div>
             <div class="col-md-4 d-none d-md-block text-center">
                 <i class="bi bi-film text-warning" style="font-size: 8rem; opacity:.85;"></i>

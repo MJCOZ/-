@@ -47,6 +47,39 @@ class PublicPagesTest extends TestCase
             ->assertDontSee('مسلسلي');
     }
 
+    public function test_movies_page_shows_only_movies(): void
+    {
+        Title::factory()->movie()->create(['name' => 'فيلم منفصل']);
+        Title::factory()->series()->create(['name' => 'مسلسل منفصل']);
+
+        $this->get('/movies')
+            ->assertOk()
+            ->assertSee('فيلم منفصل')
+            ->assertDontSee('مسلسل منفصل');
+    }
+
+    public function test_series_page_shows_only_series(): void
+    {
+        Title::factory()->movie()->create(['name' => 'فيلم منفصل']);
+        Title::factory()->series()->create(['name' => 'مسلسل منفصل']);
+
+        $this->get('/series')
+            ->assertOk()
+            ->assertSee('مسلسل منفصل')
+            ->assertDontSee('فيلم منفصل');
+    }
+
+    public function test_movies_page_groups_titles_by_genre(): void
+    {
+        $genre = Genre::factory()->create(['name' => 'تصنيف الأفلام']);
+        Title::factory()->movie()->create(['genre_id' => $genre->id, 'name' => 'فيلم مصنّف']);
+
+        $this->get('/movies')
+            ->assertOk()
+            ->assertSee('تصنيف الأفلام')
+            ->assertSee('فيلم مصنّف');
+    }
+
     public function test_title_detail_page_loads(): void
     {
         $title = Title::factory()->create(['name' => 'تفاصيل العمل']);

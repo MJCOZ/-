@@ -34,6 +34,47 @@ class TitleController extends Controller
     }
 
     /**
+     * خانة الأفلام: أفلام مصنّفة حسب التصنيف.
+     */
+    public function movies()
+    {
+        return $this->byType('movie', 'الأفلام');
+    }
+
+    /**
+     * خانة المسلسلات: مسلسلات مصنّفة حسب التصنيف.
+     */
+    public function series()
+    {
+        return $this->byType('series', 'المسلسلات');
+    }
+
+    /**
+     * عرض الأعمال من نوع معيّن مجمّعة حسب التصنيف.
+     */
+    private function byType(string $type, string $heading)
+    {
+        // التصنيفات التي تحتوي أعمالاً من هذا النوع، مع أعمالها
+        $genres = Genre::whereHas('titles', fn ($q) => $q->where('type', $type))
+            ->with(['titles' => fn ($q) => $q->where('type', $type)
+                ->withAvg('reviews', 'rating')
+                ->latest()])
+            ->orderBy('name')
+            ->get();
+
+        // أعمال بدون تصنيف
+        $ungrouped = Title::where('type', $type)
+            ->whereNull('genre_id')
+            ->withAvg('reviews', 'rating')
+            ->latest()
+            ->get();
+
+        $total = Title::where('type', $type)->count();
+
+        return view('titles.by-type', compact('genres', 'ungrouped', 'type', 'heading', 'total'));
+    }
+
+    /**
      * صفحة تفاصيل عمل واحد.
      */
     public function show(Title $title)

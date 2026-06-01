@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/titles', [TitleController::class, 'index'])->name('titles.index');
+Route::get('/movies', [TitleController::class, 'movies'])->name('movies.index');
+Route::get('/series', [TitleController::class, 'series'])->name('series.index');
 Route::get('/watched', [WatchedController::class, 'index'])->name('watched.index');
 Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('genres.show');
 Route::get('/titles/{title}/poster', [PosterController::class, 'show'])->name('titles.poster');

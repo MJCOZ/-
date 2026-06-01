@@ -56,7 +56,8 @@
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">الرئيسية</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/titles') }}">الأفلام والمسلسلات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('movies.index') }}"><i class="bi bi-camera-reels"></i> أفلام</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('series.index') }}"><i class="bi bi-tv"></i> مسلسلات</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('watched.index') }}"><i class="bi bi-eye"></i> شاهدتها</a></li>
                 </ul>
                 <form class="d-flex me-lg-3" role="search" action="{{ url('/titles') }}" method="GET">
