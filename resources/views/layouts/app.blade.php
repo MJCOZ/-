@@ -89,6 +89,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person"></i> ملفي الشخصي</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-gear"></i> تعديل الملف الشخصي</a></li>
                                 <li><a class="dropdown-item" href="{{ route('watchlist.index') }}"><i class="bi bi-bookmark-heart"></i> أريد مشاهدته</a></li>
                                 @if (auth()->user()->canManageContent())
                                     <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> لوحة التحكم</a></li>

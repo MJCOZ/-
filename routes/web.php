@@ -45,8 +45,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')->name('logout');
 
 // الملف الشخصي (المسجّلين فقط)
-Route::get('/profile', [ProfileController::class, 'show'])
-    ->middleware('auth')->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
 
 // المراجعات والتفاعل (المسجّلين فقط)
 Route::middleware('auth')->group(function () {
