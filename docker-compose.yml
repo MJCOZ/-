@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      APP_NAME: MJ TV
+      APP_NAME: MJCOZ TV
       APP_ENV: production
       APP_DEBUG: "false"
       APP_KEY: ${APP_KEY:-}          # ضع مفتاحاً ثابتاً في الإنتاج (php artisan key:generate --show)

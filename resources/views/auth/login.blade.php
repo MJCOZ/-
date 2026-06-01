@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'تسجيل الدخول — MJ TV')
+@section('title', 'تسجيل الدخول — MJCOZ TV')
 
 @section('content')
 <div class="row justify-content-center">

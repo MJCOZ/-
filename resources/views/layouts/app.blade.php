@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', config('app.name', 'MJ TV'))</title>
+    <title>@yield('title', config('app.name', 'MJCOZ TV'))</title>
 
     {{-- Bootstrap 5 RTL (مستضاف محلياً) --}}
     <link href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}" rel="stylesheet">
@@ -11,34 +11,120 @@
     <link href="{{ asset('vendor/fonts/tajawal.css') }}" rel="stylesheet">
 
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #0f1117; color: #e9ecef; }
-        a { text-decoration: none; }
-        .navbar-brand { font-weight: 700; }
-        .bg-dark-2 { background-color: #1a1d27; }
+        :root {
+            --bg: #0d0f15;
+            --surface: #161a24;
+            --surface-2: #1c2130;
+            --accent: #ffc107;
+            --accent-2: #e23744;
+            --text: #e9ecef;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            /* خلفية سينمائية ناعمة مريحة للعين */
+            background-image:
+                radial-gradient(1100px 500px at 85% -10%, rgba(226,55,68,.10), transparent 60%),
+                radial-gradient(1000px 500px at 0% 0%, rgba(255,193,7,.08), transparent 55%);
+            background-attachment: fixed;
+            line-height: 1.7;
+        }
+        a { text-decoration: none; transition: color .2s ease; }
+        a:hover { color: var(--accent); }
+
+        /* انتقالات لطيفة عامة */
+        .btn, .nav-link, .badge, .card-title-poster, .form-control, .form-select { transition: all .2s ease; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-warning { box-shadow: 0 4px 14px rgba(255,193,7,.25); }
+
+        .navbar-brand { font-weight: 700; letter-spacing: .5px; }
+        .navbar-brand .bi { filter: drop-shadow(0 0 6px rgba(255,193,7,.55)); }
+
+        /* شريط تنقّل زجاجي */
+        .navbar.bg-dark-2 {
+            background-color: rgba(18,21,30,.82) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .nav-link:hover { color: var(--accent) !important; }
+
+        .bg-dark-2 { background-color: var(--surface); }
+
+        /* كروت الأعمال — تفاعلية */
         .card-title-poster {
             position: relative;
             overflow: hidden;
-            border-radius: .75rem;
-            background-color: #1a1d27;
-            transition: transform .2s ease, box-shadow .2s ease;
+            border-radius: .9rem;
+            background-color: var(--surface);
+            border: 1px solid rgba(255,255,255,.05);
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
             height: 100%;
         }
-        .card-title-poster:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,.5); }
-        .card-title-poster img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
-        .poster-badge { position: absolute; top: .5rem; inset-inline-start: .5rem; }
-        .rating-stars { color: #ffc107; }
-        /* إدخال التقييم بالنجوم (RTL): النجوم بترتيب 5..1 فالـ siblings اللاحقة تُضاء */
+        .card-title-poster:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 34px rgba(0,0,0,.55);
+            border-color: rgba(255,193,7,.45);
+        }
+        .card-title-poster img {
+            width: 100%; aspect-ratio: 2/3; object-fit: cover;
+            transition: transform .4s ease;
+        }
+        .card-title-poster:hover img { transform: scale(1.07); }
+        .poster-badge { position: absolute; top: .5rem; inset-inline-start: .5rem; z-index: 2; }
+
+        /* غلاف الصورة + أيقونة التشغيل التفاعلية */
+        .poster-thumb { position: relative; overflow: hidden; }
+        .poster-thumb::after {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(13,15,21,.85), transparent 45%);
+            opacity: .85; transition: opacity .25s ease;
+        }
+        .poster-play {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 3rem; opacity: 0; transform: scale(.7);
+            transition: opacity .25s ease, transform .25s ease; z-index: 1;
+            text-shadow: 0 4px 16px rgba(0,0,0,.6);
+        }
+        .card-title-poster:hover .poster-play { opacity: 1; transform: scale(1); color: var(--accent); }
+
+        .rating-stars { color: var(--accent); }
+
+        /* إدخال التقييم بالنجوم (RTL) */
         .star-input { display: inline-flex; flex-direction: row; }
         .star-input input { display: none; }
-        .star-input label { color: #555; cursor: pointer; padding: 0 .1rem; transition: color .15s; }
+        .star-input label { color: #555; cursor: pointer; padding: 0 .1rem; transition: color .15s, transform .15s; }
+        .star-input label:hover { transform: scale(1.2); }
         .star-input label:hover,
         .star-input label:hover ~ label,
-        .star-input input:checked ~ label { color: #ffc107; }
+        .star-input input:checked ~ label { color: var(--accent); }
+
+        /* البانر السينمائي */
         .hero {
-            background: linear-gradient(135deg, #1f2433 0%, #0f1117 100%);
-            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, rgba(226,55,68,.18) 0%, rgba(28,33,48,.9) 45%, #0d0f15 100%);
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 1.25rem;
+            box-shadow: inset 0 0 80px rgba(0,0,0,.4);
         }
-        footer { border-top: 1px solid #2a2e3a; }
+
+        /* حقول الإدخال المركّزة */
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 .2rem rgba(255,193,7,.15);
+            background-color: #11141c;
+        }
+
+        footer { border-top: 1px solid rgba(255,255,255,.06); }
+
+        /* شريط تمرير مريح */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #2c3344; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
     </style>
     @stack('styles')
 </head>
@@ -48,7 +134,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-2 shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <i class="bi bi-film text-warning"></i> MJ TV
+                <i class="bi bi-film text-warning"></i> MJCOZ TV
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
@@ -127,7 +213,7 @@
     {{-- التذييل --}}
     <footer class="bg-dark-2 py-4 mt-auto">
         <div class="container text-center text-secondary small">
-            <i class="bi bi-film text-warning"></i> MJ TV &copy; {{ date('Y') }} — موقع مراجعة الأفلام والمسلسلات
+            <i class="bi bi-film text-warning"></i> MJCOZ TV &copy; {{ date('Y') }} — موقع مراجعة الأفلام والمسلسلات
         </div>
     </footer>
 

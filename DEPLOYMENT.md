@@ -1,4 +1,4 @@
-# دليل نشر موقع MJ TV 🚀
+# دليل نشر موقع MJCOZ TV 🚀
 
 هذا الدليل يشرح طرق نشر الموقع على سيرفر حقيقي مع رابط عام.
 
@@ -7,7 +7,7 @@
 في ملف `.env` على السيرفر:
 
 ```env
-APP_NAME=MJ TV
+APP_NAME=MJCOZ TV
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=            # ولّده: php artisan key:generate --show

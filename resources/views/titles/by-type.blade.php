@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $heading . ' — MJ TV')
+@section('title', $heading . ' — MJCOZ TV')
 
 @section('content')
 

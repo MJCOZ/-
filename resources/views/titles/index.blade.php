@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'الأفلام والمسلسلات — MJ TV')
+@section('title', 'الأفلام والمسلسلات — MJCOZ TV')
 
 @section('content')
 

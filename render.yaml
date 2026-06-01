@@ -1,4 +1,4 @@
-# مخطّط نشر MJ TV على Render — https://render.com
+# مخطّط نشر MJCOZ TV على Render — https://render.com
 # في Render اختر: New + → Blueprint → اربط هذا المستودع، وسيقرأ هذا الملف تلقائياً.
 
 databases:
@@ -15,7 +15,7 @@ services:
     healthCheckPath: /up
     envVars:
       - key: APP_NAME
-        value: "MJ TV"
+        value: "MJCOZ TV"
       - key: APP_ENV
         value: production
       - key: APP_DEBUG

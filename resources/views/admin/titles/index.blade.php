@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'إدارة الأعمال — MJ TV')
+@section('title', 'إدارة الأعمال — MJCOZ TV')
 
 @section('content')
     <h2 class="mb-4"><i class="bi bi-film text-warning"></i> إدارة الأعمال</h2>

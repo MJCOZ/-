@@ -5,7 +5,15 @@
         <span class="poster-badge badge {{ $title->isMovie() ? 'bg-primary' : 'bg-success' }}">
             {{ $title->isMovie() ? 'فيلم' : 'مسلسل' }}
         </span>
-        <img src="{{ $title->posterUrl() }}" alt="{{ $title->name }}" loading="lazy">
+        @if ($title->watched)
+            <span class="poster-badge badge bg-warning text-dark" style="inset-inline-start:auto; inset-inline-end:.5rem;">
+                <i class="bi bi-eye-fill"></i>
+            </span>
+        @endif
+        <div class="poster-thumb">
+            <img src="{{ $title->posterUrl() }}" alt="{{ $title->name }}" loading="lazy">
+            <span class="poster-play"><i class="bi bi-play-circle-fill"></i></span>
+        </div>
         <div class="p-2">
             <h6 class="mb-1 text-truncate">{{ $title->name }}</h6>
             <div class="d-flex justify-content-between align-items-center small text-secondary">

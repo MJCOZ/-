@@ -2,7 +2,7 @@
 
 @php $editing = $tag->exists; @endphp
 
-@section('title', 'إدارة الوسوم — MJ TV')
+@section('title', 'إدارة الوسوم — MJCOZ TV')
 
 @section('content')
     <h2 class="mb-4"><i class="bi bi-hash text-warning"></i> إدارة الوسوم</h2>

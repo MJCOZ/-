@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'لوحة التحكم — MJ TV')
+@section('title', 'لوحة التحكم — MJCOZ TV')
 
 @section('content')
     <h2 class="mb-4"><i class="bi bi-speedometer2 text-warning"></i> لوحة التحكم</h2>
