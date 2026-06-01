@@ -53,7 +53,8 @@ class FilmsSeeder extends Seeder
         ];
 
         foreach ($films as $data) {
-            $title = Title::updateOrCreate(
+            // ينشئ الفيلم إن لم يوجد (مع كل البيانات)، ولا يلمس الموجود
+            $title = Title::firstOrCreate(
                 ['name' => $data['name']],
                 [
                     'type' => 'movie',
@@ -61,11 +62,29 @@ class FilmsSeeder extends Seeder
                     'release_year' => $data['year'],
                     'imdb_rating' => $data['imdb'],
                     'rt_rating' => $data['rt'],
-                    'poster' => $data['poster'] ?? null, // بوستر حقيقي من ويكيبيديا (أو مولّد إن لم يوجد)
+                    'poster' => $data['poster'] ?? null,
                 ],
             );
 
-            // ربط التصنيفات (تُنشأ إن لم تكن موجودة)
+            // للأفلام الموجودة مسبقاً: نملأ الحقول الفارغة فقط (نحافظ على تعديلاتك)
+            $fill = [];
+            if (blank($title->poster)) {
+                $fill['poster'] = $data['poster'] ?? null;
+            }
+            if (is_null($title->imdb_rating)) {
+                $fill['imdb_rating'] = $data['imdb'];
+            }
+            if (is_null($title->rt_rating)) {
+                $fill['rt_rating'] = $data['rt'];
+            }
+            if (blank($title->description)) {
+                $fill['description'] = $data['desc'];
+            }
+            if ($fill) {
+                $title->update($fill);
+            }
+
+            // ربط التصنيفات (إضافة دون حذف الموجود)
             $genreIds = collect($data['genres'])->map(function (string $name) {
                 return Genre::firstOrCreate(
                     ['name' => $name],
