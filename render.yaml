@@ -1,0 +1,55 @@
+# مخطّط نشر MJ TV على Render — https://render.com
+# في Render اختر: New + → Blueprint → اربط هذا المستودع، وسيقرأ هذا الملف تلقائياً.
+
+databases:
+  - name: mj-tv-db
+    plan: free
+    databaseName: mjtv
+    user: mjtv
+
+services:
+  - type: web
+    name: mj-tv
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: "MJ TV"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_LOCALE
+        value: ar
+      # ضع مفتاح التطبيق يدوياً (انسخه من المحادثة) — يبدأ بـ base64:
+      - key: APP_KEY
+        sync: false
+      # حساب المدير الأول — اختر بريدك وكلمة مرور قوية
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # اتصال قاعدة البيانات (يُملأ تلقائياً من قاعدة Render أعلاه)
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: mj-tv-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mj-tv-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: mj-tv-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: mj-tv-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mj-tv-db
+          property: password

@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\Title;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -17,10 +18,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // مستخدمين تجريبيين
+        // أمان: لا تُعد البذر إذا كانت قاعدة البيانات معبّأة (مفيد عند النشر المتكرر)
+        if (User::query()->exists()) {
+            return;
+        }
+
+        // حساب المدير — يمكن ضبطه عبر متغيّرات البيئة عند النشر
         $admin = User::factory()->create([
             'name' => 'أحمد',
-            'email' => 'ahmed@example.com',
+            'email' => env('ADMIN_EMAIL', 'ahmed@example.com'),
+            'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
             'role' => User::ROLE_ADMIN,
         ]);
 

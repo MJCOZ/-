@@ -3,8 +3,8 @@ FROM php:8.4-apache AS app
 
 # تثبيت إضافات النظام و PHP المطلوبة
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        git unzip libzip-dev libpng-dev libonig-dev libicu-dev libsqlite3-dev \
-    && docker-php-ext-install pdo_mysql pdo_sqlite zip gd intl bcmath mbstring \
+        git unzip libzip-dev libpng-dev libonig-dev libicu-dev libsqlite3-dev libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql pdo_sqlite zip gd intl bcmath mbstring \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
