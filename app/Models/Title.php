@@ -105,14 +105,18 @@ class Title extends Model
      */
     public function posterUrl(): string
     {
-        if (blank($this->poster)) {
+        if (filled($this->poster)) {
+            return str_starts_with($this->poster, 'http')
+                ? $this->poster
+                : asset('storage/' . $this->poster);
+        }
+
+        // عمل محفوظ بدون بوستر → بوستر مولّد. عمل جديد (بلا id) → معاينة بديلة.
+        if ($this->exists) {
             return route('titles.poster', $this);
         }
 
-        if (str_starts_with($this->poster, 'http')) {
-            return $this->poster;
-        }
-
-        return asset('storage/' . $this->poster);
+        return 'data:image/svg+xml,'
+            . rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300"><rect width="200" height="300" fill="#1a1d27"/><text x="100" y="155" font-size="60" text-anchor="middle">🎬</text></svg>');
     }
 }

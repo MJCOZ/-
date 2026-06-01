@@ -39,6 +39,21 @@ class AdminTest extends TestCase
         $this->actingAs(User::factory()->admin()->create())->get('/admin/users')->assertOk();
     }
 
+    public function test_admin_create_title_page_loads(): void
+    {
+        $this->actingAs(User::factory()->admin()->create())
+            ->get('/admin/titles/create')
+            ->assertOk();
+    }
+
+    public function test_admin_edit_title_page_loads(): void
+    {
+        $title = Title::factory()->create();
+        $this->actingAs(User::factory()->admin()->create())
+            ->get("/admin/titles/{$title->id}/edit")
+            ->assertOk();
+    }
+
     public function test_admin_can_create_title(): void
     {
         $admin = User::factory()->admin()->create();
