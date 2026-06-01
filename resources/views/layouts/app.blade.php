@@ -8,10 +8,10 @@
     {{-- Bootstrap 5 RTL (مستضاف محلياً) --}}
     <link href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/fonts/tajawal.css') }}" rel="stylesheet">
 
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0f1117; color: #e9ecef; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #0f1117; color: #e9ecef; }
         a { text-decoration: none; }
         .navbar-brand { font-weight: 700; }
         .bg-dark-2 { background-color: #1a1d27; }
