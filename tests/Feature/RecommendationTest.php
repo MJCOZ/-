@@ -40,7 +40,7 @@ class RecommendationTest extends TestCase
         $title = Title::factory()->create(['name' => 'اختيار عام']);
         Review::factory()->create(['title_id' => $title->id, 'rating' => 5]);
 
-        $this->get('/')->assertOk()->assertSee('اخترنا لك');
+        $this->get('/')->assertOk()->assertSee('ترشيحات');
     }
 
     private function makeUserWithReviews(): User
