@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'وسم: ' . $tag->name . ' — CineReview')
+@section('title', 'وسم: ' . $tag->name . ' — MJ TV')
 
 @section('content')
 

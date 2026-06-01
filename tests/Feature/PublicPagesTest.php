@@ -15,7 +15,7 @@ class PublicPagesTest extends TestCase
     {
         Title::factory()->count(3)->create();
 
-        $this->get('/')->assertOk()->assertSee('CineReview');
+        $this->get('/')->assertOk()->assertSee('MJ TV');
     }
 
     public function test_titles_index_lists_titles(): void

@@ -2,7 +2,7 @@
 
 @php $editing = $title->exists; @endphp
 
-@section('title', ($editing ? 'تعديل' : 'إضافة') . ' عمل — CineReview')
+@section('title', ($editing ? 'تعديل' : 'إضافة') . ' عمل — MJ TV')
 
 @section('content')
     <h2 class="mb-4">

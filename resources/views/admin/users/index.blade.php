@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'إدارة المستخدمين — CineReview')
+@section('title', 'إدارة المستخدمين — MJ TV')
 
 @section('content')
     <h2 class="mb-4"><i class="bi bi-people text-warning"></i> إدارة المستخدمين</h2>

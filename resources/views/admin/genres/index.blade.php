@@ -2,7 +2,7 @@
 
 @php $editing = $genre->exists; @endphp
 
-@section('title', 'إدارة التصنيفات — CineReview')
+@section('title', 'إدارة التصنيفات — MJ TV')
 
 @section('content')
     <h2 class="mb-4"><i class="bi bi-tags text-warning"></i> إدارة التصنيفات</h2>

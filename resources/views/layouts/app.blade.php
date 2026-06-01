@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', config('app.name', 'CineReview'))</title>
+    <title>@yield('title', config('app.name', 'MJ TV'))</title>
 
     {{-- Bootstrap 5 RTL (مستضاف محلياً) --}}
     <link href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}" rel="stylesheet">
@@ -48,7 +48,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-2 shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <i class="bi bi-film text-warning"></i> CineReview
+                <i class="bi bi-film text-warning"></i> MJ TV
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
@@ -126,7 +126,7 @@
     {{-- التذييل --}}
     <footer class="bg-dark-2 py-4 mt-auto">
         <div class="container text-center text-secondary small">
-            <i class="bi bi-film text-warning"></i> CineReview &copy; {{ date('Y') }} — موقع مراجعة الأفلام والمسلسلات
+            <i class="bi bi-film text-warning"></i> MJ TV &copy; {{ date('Y') }} — موقع مراجعة الأفلام والمسلسلات
         </div>
     </footer>
 

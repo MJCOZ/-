@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'الرئيسية — CineReview')
+@section('title', 'الرئيسية — MJ TV')
 
 @section('content')
 
@@ -10,7 +10,7 @@
             <div class="col-md-8">
                 <h1 class="fw-bold mb-3">اكتشف، قيّم، وشارك رأيك 🎬</h1>
                 <p class="lead text-secondary mb-4">
-                    موقع CineReview يجمع لك أفضل الأفلام والمسلسلات مع آراء حقيقية من المشاهدين.
+                    موقع MJ TV يجمع لك أفضل الأفلام والمسلسلات مع آراء حقيقية من المشاهدين.
                     تصفّح الأعمال، اقرأ المراجعات، وأضف تقييمك الخاص.
                 </p>
                 <div class="d-flex flex-wrap gap-2">
