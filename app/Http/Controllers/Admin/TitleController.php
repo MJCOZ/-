@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Genre;
+use App\Models\Tag;
 use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,8 +28,9 @@ class TitleController extends Controller
     {
         $title = new Title();
         $genres = Genre::orderBy('name')->get();
+        $allTags = Tag::orderBy('name')->get();
 
-        return view('admin.titles.form', compact('title', 'genres'));
+        return view('admin.titles.form', compact('title', 'genres', 'allTags'));
     }
 
     /**
@@ -39,7 +41,8 @@ class TitleController extends Controller
         $data = $this->validateData($request);
         $data = $this->handlePoster($request, $data);
 
-        Title::create($data);
+        $title = Title::create($data);
+        $title->tags()->sync($request->input('tags', []));
 
         return redirect()->route('admin.titles.index')->with('status', 'تمت إضافة العمل بنجاح.');
     }
@@ -50,8 +53,10 @@ class TitleController extends Controller
     public function edit(Title $title)
     {
         $genres = Genre::orderBy('name')->get();
+        $allTags = Tag::orderBy('name')->get();
+        $title->load('tags');
 
-        return view('admin.titles.form', compact('title', 'genres'));
+        return view('admin.titles.form', compact('title', 'genres', 'allTags'));
     }
 
     /**
@@ -63,6 +68,7 @@ class TitleController extends Controller
         $data = $this->handlePoster($request, $data, $title);
 
         $title->update($data);
+        $title->tags()->sync($request->input('tags', []));
 
         return redirect()->route('admin.titles.index')->with('status', 'تم تحديث العمل بنجاح.');
     }
@@ -95,6 +101,8 @@ class TitleController extends Controller
             'personal_rating' => ['nullable', 'integer', 'between:1,10'],
             'watched' => ['nullable', 'boolean'],
             'watched_at' => ['nullable', 'date'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['integer', 'exists:tags,id'],
         ], [], [
             'name' => 'الاسم',
             'type' => 'النوع',
@@ -110,6 +118,9 @@ class TitleController extends Controller
 
         // صندوق الاختيار: غير مرسل = false
         $validated['watched'] = $request->boolean('watched');
+
+        // الوسوم تُزامَن منفصلة وليست عموداً
+        unset($validated['tags']);
 
         return $validated;
     }

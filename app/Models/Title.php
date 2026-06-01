@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Title extends Model
@@ -56,6 +57,31 @@ class Title extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    /**
+     * وسوم العمل (متعددة).
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'title_tag');
+    }
+
+    /**
+     * المستخدمون الذين أضافوا العمل لقائمة مشاهدتهم.
+     */
+    public function watchlistedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'watchlists')->withTimestamps();
+    }
+
+    /**
+     * هل العمل في قائمة مشاهدة المستخدم الحالي؟
+     */
+    public function inMyWatchlist(): bool
+    {
+        return auth()->check()
+            && $this->watchlistedBy->contains('id', auth()->id());
     }
 
     /**

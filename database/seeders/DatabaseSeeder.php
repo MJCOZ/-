@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Genre;
 use App\Models\Review;
+use App\Models\Tag;
 use App\Models\Title;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -37,6 +38,13 @@ class DatabaseSeeder extends Seeder
             $genre = Genre::create(['name' => $name, 'slug' => Str::slug($name) ?: Str::random(6)]);
             return [$name => $genre];
         });
+
+        // الوسوم
+        $tagNames = ['كلاسيكي', 'حائز جوائز', 'مبني على قصة حقيقية', 'إثارة', 'عائلي', 'تشويق', 'ملحمي', 'مرشّح للأوسكار'];
+        $tags = collect($tagNames)->map(fn ($name, $i) => Tag::create([
+            'name' => $name,
+            'slug' => Str::slug($name) ?: 'tag-' . $i,
+        ]));
 
         // الأعمال (أفلام ومسلسلات) — مع تقييمات و"شاهدتها" لبعضها
         $titles = [
@@ -74,6 +82,9 @@ class DatabaseSeeder extends Seeder
                 'watched' => $data['watched'] ?? false,
                 'watched_at' => isset($data['watched']) ? now()->subDays(rand(1, 120)) : null,
             ]);
+
+            // وسوم عشوائية لكل عمل
+            $title->tags()->attach($tags->random(rand(1, 3))->pluck('id')->all());
 
             // مراجعات عشوائية لكل عمل
             $reviewers = $users->random(rand(2, 5));

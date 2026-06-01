@@ -73,6 +73,27 @@
                               class="form-control bg-dark text-light border-secondary">{{ old('description', $title->description) }}</textarea>
                 </div>
 
+                {{-- الوسوم المتعددة --}}
+                <div class="col-12">
+                    <label class="form-label">الوسوم <small class="text-secondary">(اختر واحداً أو أكثر)</small></label>
+                    @php $selectedTags = old('tags', $title->tags->pluck('id')->all()); @endphp
+                    @if ($allTags->isEmpty())
+                        <div class="text-secondary small">لا توجد وسوم بعد —
+                            <a href="{{ route('admin.tags.index') }}" class="text-warning">أضف وسوماً</a>.</div>
+                    @else
+                        <div class="d-flex flex-wrap gap-3 bg-dark p-3 rounded border border-secondary">
+                            @foreach ($allTags as $tag)
+                                <div class="form-check">
+                                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                           id="tag{{ $tag->id }}" class="form-check-input"
+                                           @checked(in_array($tag->id, $selectedTags))>
+                                    <label class="form-check-label" for="tag{{ $tag->id }}">{{ $tag->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
                 {{-- قسم التقييمات و"شاهدته" --}}
                 <div class="col-12"><hr class="border-secondary"><h5 class="text-warning"><i class="bi bi-star"></i> التقييمات</h5></div>
 

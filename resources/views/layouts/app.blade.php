@@ -72,12 +72,24 @@
                             <a class="btn btn-warning btn-sm mt-1" href="{{ route('register') }}">إنشاء حساب</a>
                         </li>
                     @else
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{{ route('notifications.index') }}" title="الإشعارات">
+                                <i class="bi bi-bell"></i>
+                                @php $unread = auth()->user()->unreadNotifications()->count(); @endphp
+                                @if ($unread > 0)
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unread > 9 ? '9+' : $unread }}
+                                    </span>
+                                @endif
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person"></i> ملفي الشخصي</a></li>
+                                <li><a class="dropdown-item" href="{{ route('watchlist.index') }}"><i class="bi bi-bookmark-heart"></i> أريد مشاهدته</a></li>
                                 @if (auth()->user()->canManageContent())
                                     <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> لوحة التحكم</a></li>
                                 @endif

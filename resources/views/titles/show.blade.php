@@ -35,7 +35,23 @@
             {{-- تقييمات IMDb / Rotten Tomatoes / الشخصي --}}
             @include('partials.external-ratings', ['title' => $title])
 
+            {{-- الوسوم --}}
+            @if ($title->tags->isNotEmpty())
+                <div class="d-flex flex-wrap gap-1 my-2">
+                    @foreach ($title->tags as $tag)
+                        <a href="{{ route('tags.show', $tag) }}" class="badge bg-info text-dark text-decoration-none">
+                            #{{ $tag->name }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+
             <p class="lead mt-2">{{ $title->description }}</p>
+
+            {{-- زر قائمة المشاهدة --}}
+            <div class="mb-2">
+                @include('partials.watchlist-button', ['title' => $title])
+            </div>
         </div>
     </div>
 

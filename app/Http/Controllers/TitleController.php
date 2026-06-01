@@ -81,6 +81,8 @@ class TitleController extends Controller
     {
         $title->load([
             'genre',
+            'tags',
+            'watchlistedBy',
             'reviews.user',
             'reviews.comments.user',
             'reviews.likes',

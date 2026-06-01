@@ -17,6 +17,11 @@
                 <i class="bi bi-tags"></i> التصنيفات
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ $active === 'tags' ? 'active' : 'text-light' }}" href="{{ route('admin.tags.index') }}">
+                <i class="bi bi-hash"></i> الوسوم
+            </a>
+        </li>
         @if (auth()->user()->isAdmin())
             <li class="nav-item">
                 <a class="nav-link {{ $active === 'users' ? 'active' : 'text-light' }}" href="{{ route('admin.users.index') }}">
