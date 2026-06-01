@@ -72,7 +72,8 @@ class PublicPagesTest extends TestCase
     public function test_movies_page_groups_titles_by_genre(): void
     {
         $genre = Genre::factory()->create(['name' => 'تصنيف الأفلام']);
-        Title::factory()->movie()->create(['genre_id' => $genre->id, 'name' => 'فيلم مصنّف']);
+        $title = Title::factory()->movie()->create(['name' => 'فيلم مصنّف']);
+        $title->genres()->attach($genre);
 
         $this->get('/movies')
             ->assertOk()
@@ -90,7 +91,8 @@ class PublicPagesTest extends TestCase
     public function test_genre_page_shows_its_titles(): void
     {
         $genre = Genre::factory()->create(['name' => 'تصنيفي']);
-        Title::factory()->create(['genre_id' => $genre->id, 'name' => 'عمل ضمن التصنيف']);
+        $title = Title::factory()->create(['name' => 'عمل ضمن التصنيف']);
+        $title->genres()->attach($genre);
 
         $this->get("/genres/{$genre->id}")
             ->assertOk()

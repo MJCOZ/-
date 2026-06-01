@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', config('app.name', 'MJCOZ TV'))</title>
 
+    {{-- تطبيق الثيم المحفوظ قبل الرسم لتفادي الوميض --}}
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
     {{-- Bootstrap 5 RTL (مستضاف محلياً) --}}
     <link href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}" rel="stylesheet">
@@ -125,6 +135,58 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #2c3344; border-radius: 6px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* زر العودة للأعلى */
+        #toTop {
+            position: fixed; inset-block-end: 24px; inset-inline-start: 24px; z-index: 1030;
+            width: 46px; height: 46px; border-radius: 50%; border: none;
+            background: var(--accent); color: #1a1d27; font-size: 1.3rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,.4);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: opacity .25s, transform .25s, visibility .25s;
+        }
+        #toTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #toTop:hover { transform: translateY(-3px); }
+
+        /* ===== الوضع النهاري ===== */
+        [data-theme="light"] {
+            --bg: #f3f5fa; --surface: #ffffff; --surface-2: #eef1f7; --text: #1b2030;
+        }
+        [data-theme="light"] body {
+            color: var(--text);
+            background-image:
+                radial-gradient(1100px 500px at 85% -10%, rgba(226,55,68,.08), transparent 60%),
+                radial-gradient(1000px 500px at 0% 0%, rgba(255,193,7,.10), transparent 55%);
+        }
+        [data-theme="light"] .bg-dark-2 { background-color: var(--surface); }
+        [data-theme="light"] .navbar.bg-dark-2 {
+            background-color: rgba(255,255,255,.85) !important;
+            border-bottom-color: rgba(0,0,0,.08);
+        }
+        [data-theme="light"] .navbar-brand,
+        [data-theme="light"] .navbar .nav-link { color: #2a2f3a !important; }
+        [data-theme="light"] .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(40,45,55,0.85)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        [data-theme="light"] .text-light { color: #1b2030 !important; }
+        [data-theme="light"] .text-secondary { color: #5b6573 !important; }
+        [data-theme="light"] .bg-dark { background-color: #eef1f7 !important; color: #1b2030 !important; }
+        [data-theme="light"] .form-control, [data-theme="light"] .form-select {
+            background-color: #fff !important; color: #1b2030 !important; border-color: #cfd6e4 !important;
+        }
+        [data-theme="light"] .card-title-poster { background-color: #fff; border-color: rgba(0,0,0,.08); }
+        [data-theme="light"] .dropdown-menu-dark {
+            --bs-dropdown-bg: #fff; --bs-dropdown-color: #1b2030; --bs-dropdown-link-color: #1b2030;
+            --bs-dropdown-link-hover-bg: #f0f2f7; border: 1px solid rgba(0,0,0,.1);
+        }
+        [data-theme="light"] .table-dark {
+            --bs-table-bg: #fff; --bs-table-color: #1b2030; --bs-table-border-color: #e3e7ef;
+            --bs-table-hover-bg: #f3f5fa; --bs-table-hover-color: #1b2030;
+        }
+        [data-theme="light"] .poster-thumb::after {
+            background: linear-gradient(to top, rgba(255,255,255,.9), transparent 45%);
+        }
+        [data-theme="light"] #toTop { color: #1a1d27; }
     </style>
     @stack('styles')
 </head>
@@ -151,7 +213,12 @@
                            name="q" placeholder="ابحث عن عمل..." value="{{ request('q') }}">
                 </form>
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <button id="themeToggle" class="btn btn-sm btn-outline-secondary border-0 nav-link" title="تبديل الوضع">
+                            <i class="bi bi-moon-stars"></i>
+                        </button>
+                    </li>
                     @guest
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">دخول</a></li>
                         <li class="nav-item">
@@ -217,7 +284,37 @@
         </div>
     </footer>
 
+    {{-- زر العودة للأعلى --}}
+    <button id="toTop" title="للأعلى" aria-label="للأعلى"><i class="bi bi-arrow-up"></i></button>
+
     <script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // تبديل الوضع الليلي/النهاري
+        (function () {
+            var root = document.documentElement;
+            var btn = document.getElementById('themeToggle');
+            function syncIcon() {
+                var dark = root.getAttribute('data-theme') !== 'light';
+                btn.innerHTML = dark ? '<i class="bi bi-moon-stars"></i>' : '<i class="bi bi-sun"></i>';
+            }
+            syncIcon();
+            btn.addEventListener('click', function () {
+                var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('theme', next); } catch (e) {}
+                syncIcon();
+            });
+
+            // زر العودة للأعلى
+            var toTop = document.getElementById('toTop');
+            window.addEventListener('scroll', function () {
+                toTop.classList.toggle('show', window.scrollY > 400);
+            });
+            toTop.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>

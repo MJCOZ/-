@@ -17,6 +17,8 @@ class Title extends Model
         'name',
         'type',
         'description',
+        'platform',
+        'watch_url',
         'poster',
         'release_year',
         'imdb_rating',
@@ -44,11 +46,19 @@ class Title extends Model
     }
 
     /**
-     * العمل ينتمي لتصنيف واحد.
+     * التصنيف الأساسي (للتوافق وتجميع الصفحات).
      */
     public function genre(): BelongsTo
     {
         return $this->belongsTo(Genre::class);
+    }
+
+    /**
+     * تصنيفات العمل (متعدّدة).
+     */
+    public function genres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class, 'genre_title');
     }
 
     /**

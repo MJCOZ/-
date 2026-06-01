@@ -58,13 +58,13 @@ class TitleController extends Controller
         $genres = Genre::whereHas('titles', fn ($q) => $q->where('type', $type))
             ->with(['titles' => fn ($q) => $q->where('type', $type)
                 ->withAvg('reviews', 'rating')
-                ->latest()])
+                ->latest('titles.created_at')])
             ->orderBy('name')
             ->get();
 
-        // أعمال بدون تصنيف
+        // أعمال بلا تصنيف
         $ungrouped = Title::where('type', $type)
-            ->whereNull('genre_id')
+            ->whereDoesntHave('genres')
             ->withAvg('reviews', 'rating')
             ->latest()
             ->get();
@@ -80,7 +80,7 @@ class TitleController extends Controller
     public function show(Title $title)
     {
         $title->load([
-            'genre',
+            'genres',
             'tags',
             'watchlistedBy',
             'reviews.user',
@@ -94,9 +94,10 @@ class TitleController extends Controller
             ? $title->reviews->firstWhere('user_id', auth()->id())
             : null;
 
-        // أعمال مشابهة (نفس التصنيف)
+        // أعمال مشابهة (تشترك في أحد التصنيفات)
+        $genreIds = $title->genres->pluck('id');
         $similar = Title::where('id', '!=', $title->id)
-            ->when($title->genre_id, fn ($q) => $q->where('genre_id', $title->genre_id))
+            ->when($genreIds->isNotEmpty(), fn ($q) => $q->whereHas('genres', fn ($g) => $g->whereIn('genres.id', $genreIds)))
             ->withAvg('reviews', 'rating')
             ->inRandomOrder()
             ->take(6)

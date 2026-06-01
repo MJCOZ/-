@@ -13,7 +13,7 @@ class GenreController extends Controller
     {
         $titles = $genre->titles()
             ->withAvg('reviews', 'rating')
-            ->latest()
+            ->latest('titles.created_at')
             ->paginate(12);
 
         return view('genres.show', compact('genre', 'titles'));

@@ -62,15 +62,18 @@ class AdminTest extends TestCase
         $this->actingAs($admin)->post('/admin/titles', [
             'name' => 'عمل جديد',
             'type' => 'movie',
-            'genre_id' => $genre->id,
+            'genres' => [$genre->id],
             'release_year' => 2020,
+            'platform' => 'Netflix',
+            'watch_url' => 'https://example.com/watch',
             'imdb_rating' => 8.5,
             'rt_rating' => 90,
             'personal_rating' => 9,
             'watched' => 1,
         ])->assertRedirect('/admin/titles');
 
-        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true]);
+        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true, 'platform' => 'Netflix']);
+        $this->assertDatabaseHas('genre_title', ['genre_id' => $genre->id]);
     }
 
     public function test_admin_can_upload_poster_image(): void

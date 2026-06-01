@@ -16,7 +16,7 @@ class TitleController extends Controller
      */
     public function index()
     {
-        $titles = Title::with('genre')->withCount('reviews')->latest()->paginate(15);
+        $titles = Title::with('genres')->withCount('reviews')->latest()->paginate(15);
 
         return view('admin.titles.index', compact('titles'));
     }
@@ -43,6 +43,7 @@ class TitleController extends Controller
 
         $title = Title::create($data);
         $title->tags()->sync($request->input('tags', []));
+        $this->syncGenres($request, $title);
 
         return redirect()->route('admin.titles.index')->with('status', 'تمت إضافة العمل بنجاح.');
     }
@@ -54,7 +55,7 @@ class TitleController extends Controller
     {
         $genres = Genre::orderBy('name')->get();
         $allTags = Tag::orderBy('name')->get();
-        $title->load('tags');
+        $title->load('tags', 'genres');
 
         return view('admin.titles.form', compact('title', 'genres', 'allTags'));
     }
@@ -69,6 +70,7 @@ class TitleController extends Controller
 
         $title->update($data);
         $title->tags()->sync($request->input('tags', []));
+        $this->syncGenres($request, $title);
 
         return redirect()->route('admin.titles.index')->with('status', 'تم تحديث العمل بنجاح.');
     }
@@ -91,11 +93,14 @@ class TitleController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:movie,series'],
-            'genre_id' => ['nullable', 'exists:genres,id'],
+            'genres' => ['nullable', 'array'],
+            'genres.*' => ['integer', 'exists:genres,id'],
             'release_year' => ['nullable', 'integer', 'between:1900,2100'],
             'poster' => ['nullable', 'string', 'max:2048'],
             'poster_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'description' => ['nullable', 'string', 'max:5000'],
+            'platform' => ['nullable', 'string', 'max:100'],
+            'watch_url' => ['nullable', 'url', 'max:2048'],
             'imdb_rating' => ['nullable', 'numeric', 'between:0,10'],
             'rt_rating' => ['nullable', 'integer', 'between:0,100'],
             'personal_rating' => ['nullable', 'integer', 'between:1,10'],
@@ -106,11 +111,13 @@ class TitleController extends Controller
         ], [], [
             'name' => 'الاسم',
             'type' => 'النوع',
-            'genre_id' => 'التصنيف',
+            'genres' => 'التصنيفات',
             'release_year' => 'سنة الإصدار',
             'poster' => 'رابط البوستر',
             'poster_file' => 'ملف البوستر',
             'description' => 'الوصف',
+            'platform' => 'منصة العرض',
+            'watch_url' => 'رابط المشاهدة',
             'imdb_rating' => 'تقييم IMDb',
             'rt_rating' => 'تقييم Rotten Tomatoes',
             'personal_rating' => 'تقييمي الشخصي',
@@ -119,10 +126,21 @@ class TitleController extends Controller
         // صندوق الاختيار: غير مرسل = false
         $validated['watched'] = $request->boolean('watched');
 
-        // الوسوم تُزامَن منفصلة وليست عموداً
-        unset($validated['tags']);
+        // التصنيف الأساسي = أول تصنيف مختار (للتوافق)
+        $validated['genre_id'] = $request->input('genres.0');
+
+        // تُزامَن منفصلة وليست أعمدة
+        unset($validated['tags'], $validated['genres']);
 
         return $validated;
+    }
+
+    /**
+     * مزامنة تصنيفات العمل المتعددة.
+     */
+    private function syncGenres(Request $request, Title $title): void
+    {
+        $title->genres()->sync($request->input('genres', []));
     }
 
     /**

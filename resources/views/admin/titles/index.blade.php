@@ -34,7 +34,7 @@
                                     {{ $title->isMovie() ? 'فيلم' : 'مسلسل' }}
                                 </span>
                             </td>
-                            <td>{{ $title->genre?->name ?? '—' }}</td>
+                            <td>{{ $title->genres->pluck('name')->implode('، ') ?: '—' }}</td>
                             <td>{{ $title->release_year ?? '—' }}</td>
                             <td>{{ $title->reviews_count }}</td>
                             <td class="text-end">

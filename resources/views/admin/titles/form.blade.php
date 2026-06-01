@@ -33,16 +33,20 @@
                     </select>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">التصنيف</label>
-                    <select name="genre_id" class="form-select bg-dark text-light border-secondary">
-                        <option value="">— بدون —</option>
+                <div class="col-12">
+                    <label class="form-label">التصنيفات <small class="text-secondary">(اختر واحداً أو أكثر)</small></label>
+                    @php $selectedGenres = old('genres', isset($title) ? $title->genres->pluck('id')->all() : []); @endphp
+                    <div class="d-flex flex-wrap gap-3 bg-dark p-3 rounded border border-secondary @error('genres') border-danger @enderror">
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" @selected(old('genre_id', $title->genre_id) == $genre->id)>
-                                {{ $genre->name }}
-                            </option>
+                            <div class="form-check">
+                                <input type="checkbox" name="genres[]" value="{{ $genre->id }}"
+                                       id="genre{{ $genre->id }}" class="form-check-input"
+                                       @checked(in_array($genre->id, $selectedGenres))>
+                                <label class="form-check-label" for="genre{{ $genre->id }}">{{ $genre->name }}</label>
+                            </div>
                         @endforeach
-                    </select>
+                    </div>
+                    @error('genres.*') <div class="text-danger small">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-md-6">
@@ -71,6 +75,25 @@
                     <label class="form-label">الوصف</label>
                     <textarea name="description" rows="4"
                               class="form-control bg-dark text-light border-secondary">{{ old('description', $title->description) }}</textarea>
+                </div>
+
+                {{-- منصة العرض ورابط المشاهدة --}}
+                <div class="col-md-5">
+                    <label class="form-label">📺 منصة العرض <small class="text-secondary">(اختياري)</small></label>
+                    <input type="text" name="platform" value="{{ old('platform', $title->platform) }}"
+                           list="platforms" placeholder="Netflix، شاهد، Disney+..."
+                           class="form-control bg-dark text-light border-secondary">
+                    <datalist id="platforms">
+                        <option value="Netflix"><option value="شاهد"><option value="Disney+">
+                        <option value="Amazon Prime"><option value="OSN+"><option value="Apple TV+"><option value="HBO Max">
+                    </datalist>
+                </div>
+                <div class="col-md-7">
+                    <label class="form-label">🔗 رابط المشاهدة <small class="text-secondary">(اختياري)</small></label>
+                    <input type="url" name="watch_url" value="{{ old('watch_url', $title->watch_url) }}"
+                           placeholder="https://..."
+                           class="form-control bg-dark text-light border-secondary @error('watch_url') is-invalid @enderror">
+                    @error('watch_url') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- الوسوم المتعددة --}}

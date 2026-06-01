@@ -85,20 +85,31 @@ class DatabaseSeeder extends Seeder
             'صح لسانك، من أفضل الأعمال.', 'النهاية خذلتني بصراحة.', 'شكراً على المراجعة المفيدة.',
         ];
 
+        $platforms = ['Netflix', 'شاهد', 'Disney+', 'Amazon Prime', 'OSN+'];
+
         foreach ($titles as $data) {
+            $primaryGenre = $genres[$data['genre']];
             $title = Title::create([
-                'genre_id' => $genres[$data['genre']]->id,
+                'genre_id' => $primaryGenre->id,
                 'name' => $data['name'],
                 'type' => $data['type'],
                 'description' => $data['desc'],
                 'release_year' => $data['year'],
                 'poster' => null, // يُستخدم البوستر المولّد تلقائياً
+                'platform' => ($data['watched'] ?? false) ? collect($platforms)->random() : null,
+                'watch_url' => ($data['watched'] ?? false) ? 'https://www.example.com/watch' : null,
                 'imdb_rating' => $data['imdb'] ?? null,
                 'rt_rating' => $data['rt'] ?? null,
                 'personal_rating' => $data['personal'] ?? null,
                 'watched' => $data['watched'] ?? false,
                 'watched_at' => isset($data['watched']) ? now()->subDays(rand(1, 120)) : null,
             ]);
+
+            // تصنيفات متعددة: الأساسي + أحياناً تصنيف إضافي
+            $genreIds = collect([$primaryGenre->id])
+                ->merge($genres->random(rand(0, 2))->pluck('id'))
+                ->unique()->all();
+            $title->genres()->sync($genreIds);
 
             // وسوم عشوائية لكل عمل
             $title->tags()->attach($tags->random(rand(1, 3))->pluck('id')->all());

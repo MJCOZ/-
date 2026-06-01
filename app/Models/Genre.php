@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Genre extends Model
 {
@@ -13,10 +13,10 @@ class Genre extends Model
     protected $fillable = ['name', 'slug'];
 
     /**
-     * التصنيف له عدة أعمال.
+     * أعمال هذا التصنيف (علاقة متعدّدة لمتعدّدة).
      */
-    public function titles(): HasMany
+    public function titles(): BelongsToMany
     {
-        return $this->hasMany(Title::class);
+        return $this->belongsToMany(Title::class, 'genre_title');
     }
 }

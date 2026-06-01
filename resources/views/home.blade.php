@@ -4,29 +4,61 @@
 
 @section('content')
 
-    {{-- البانر --}}
-    <section class="hero p-5 mb-5 text-center text-md-start">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1 class="fw-bold mb-3">اكتشف، قيّم، وشارك رأيك 🎬</h1>
-                <p class="lead text-secondary mb-4">
-                    موقع MJCOZ TV يجمع لك أفضل الأفلام والمسلسلات مع آراء حقيقية من المشاهدين.
-                    تصفّح الأعمال، اقرأ المراجعات، وأضف تقييمك الخاص.
-                </p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('movies.index') }}" class="btn btn-warning btn-lg">
-                        <i class="bi bi-camera-reels"></i> الأفلام
-                    </a>
-                    <a href="{{ route('series.index') }}" class="btn btn-outline-light btn-lg">
-                        <i class="bi bi-tv"></i> المسلسلات
-                    </a>
+    {{-- سلايدر الأعمال المميّزة --}}
+    @php $featured = $topRated->take(5); @endphp
+    @if ($featured->isNotEmpty())
+        <div id="featured" class="carousel slide hero mb-5" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4">
+                @foreach ($featured as $i => $item)
+                    <div class="carousel-item @if($i === 0) active @endif">
+                        <div class="row align-items-center p-4 p-md-5 g-4">
+                            <div class="col-md-8 text-center text-md-start order-2 order-md-1">
+                                <span class="badge {{ $item->isMovie() ? 'bg-primary' : 'bg-success' }}">
+                                    {{ $item->isMovie() ? 'فيلم' : 'مسلسل' }}
+                                </span>
+                                @if ($item->watched)
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-eye-fill"></i> شاهدتها</span>
+                                @endif
+                                <h2 class="fw-bold mt-2">{{ $item->name }}</h2>
+                                <div class="mb-2">
+                                    @include('partials.stars', ['rating' => round($item->reviews_avg_rating, 1)])
+                                    <strong>{{ round($item->reviews_avg_rating, 1) }}</strong>
+                                    <span class="text-secondary">· {{ $item->release_year }}</span>
+                                </div>
+                                <p class="text-secondary d-none d-md-block mb-3">
+                                    {{ \Illuminate\Support\Str::limit($item->description, 150) }}
+                                </p>
+                                <a href="{{ route('titles.show', $item) }}" class="btn btn-warning btn-lg">
+                                    <i class="bi bi-play-circle"></i> التفاصيل والمراجعات
+                                </a>
+                            </div>
+                            <div class="col-md-4 text-center order-1 order-md-2">
+                                <a href="{{ route('titles.show', $item) }}">
+                                    <img src="{{ $item->posterUrl() }}" alt="{{ $item->name }}"
+                                         class="rounded-3 shadow" style="max-height: 280px; aspect-ratio:2/3; object-fit:cover;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            @if ($featured->count() > 1)
+                <button class="carousel-control-prev" type="button" data-bs-target="#featured" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featured" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+                <div class="carousel-indicators">
+                    @foreach ($featured as $i => $item)
+                        <button type="button" data-bs-target="#featured" data-bs-slide-to="{{ $i }}"
+                                @if($i === 0) class="active" @endif></button>
+                    @endforeach
                 </div>
-            </div>
-            <div class="col-md-4 d-none d-md-block text-center">
-                <i class="bi bi-film text-warning" style="font-size: 8rem; opacity:.85;"></i>
-            </div>
+            @endif
         </div>
-    </section>
+    @endif
 
     {{-- التصنيفات --}}
     <section class="mb-5">

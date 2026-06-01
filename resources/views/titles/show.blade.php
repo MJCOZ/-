@@ -20,11 +20,11 @@
 
             <div class="d-flex flex-wrap gap-3 align-items-center text-secondary mb-2">
                 <span><i class="bi bi-calendar3"></i> {{ $title->release_year }}</span>
-                @if ($title->genre)
-                    <a href="{{ route('genres.show', $title->genre) }}" class="text-warning">
-                        <i class="bi bi-tag"></i> {{ $title->genre->name }}
+                @foreach ($title->genres as $genre)
+                    <a href="{{ route('genres.show', $genre) }}" class="text-warning">
+                        <i class="bi bi-tag"></i> {{ $genre->name }}
                     </a>
-                @endif
+                @endforeach
                 <span>
                     @include('partials.stars', ['rating' => $avg])
                     <strong class="text-light">{{ $avg ?: '—' }}</strong>
@@ -48,8 +48,18 @@
 
             <p class="lead mt-2">{{ $title->description }}</p>
 
-            {{-- زر قائمة المشاهدة --}}
-            <div class="mb-2">
+            {{-- منصة العرض ورابط المشاهدة + قائمة المشاهدة --}}
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                @if ($title->watch_url)
+                    <a href="{{ $title->watch_url }}" target="_blank" rel="noopener" class="btn btn-danger">
+                        <i class="bi bi-play-fill"></i> شاهد الآن{{ $title->platform ? ' على ' . $title->platform : '' }}
+                    </a>
+                @elseif ($title->platform)
+                    <span class="badge bg-secondary fs-6 align-self-center">
+                        <i class="bi bi-tv"></i> متوفّر على {{ $title->platform }}
+                    </span>
+                @endif
+
                 @include('partials.watchlist-button', ['title' => $title])
             </div>
         </div>
