@@ -15,22 +15,38 @@ class TitleController extends Controller
     {
         $query = Title::query()->withAvg('reviews', 'rating');
 
-        if ($q = trim((string) $request->get('q'))) {
-            $query->where('name', 'like', "%{$q}%");
+        $q = trim((string) $request->get('q'));
+        if ($q !== '') {
+            // بحث موسّع: الاسم أو الوصف أو المنصة أو التصنيف أو الوسم
+            $query->where(function ($sub) use ($q) {
+                $sub->where('name', 'like', "%{$q}%")
+                    ->orWhere('description', 'like', "%{$q}%")
+                    ->orWhere('platform', 'like', "%{$q}%")
+                    ->orWhereHas('genres', fn ($g) => $g->where('name', 'like', "%{$q}%"))
+                    ->orWhereHas('tags', fn ($t) => $t->where('name', 'like', "%{$q}%"));
+            });
         }
 
         if ($request->filled('genre')) {
-            $query->where('genre_id', $request->integer('genre'));
+            $query->whereHas('genres', fn ($g) => $g->where('genres.id', $request->integer('genre')));
         }
 
         if (in_array($request->get('type'), ['movie', 'series'], true)) {
             $query->where('type', $request->get('type'));
         }
 
-        $titles = $query->latest()->paginate(12)->withQueryString();
+        if ($request->get('sort') === 'rating') {
+            $query->orderByDesc('reviews_avg_rating');
+        } elseif ($request->get('sort') === 'year') {
+            $query->orderByDesc('release_year');
+        } else {
+            $query->latest();
+        }
+
+        $titles = $query->paginate(12)->withQueryString();
         $genres = Genre::orderBy('name')->get();
 
-        return view('titles.index', compact('titles', 'genres'));
+        return view('titles.index', compact('titles', 'genres', 'q'));
     }
 
     /**
