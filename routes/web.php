@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GenreController as AdminGenreController;
+use App\Http\Controllers\Admin\TitleController as AdminTitleController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\HomeController;
@@ -35,4 +39,21 @@ Route::get('/profile', [ProfileController::class, 'show'])
 Route::middleware('auth')->group(function () {
     Route::post('/titles/{title}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
+
+// لوحة الأدمن
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // المدير والمحرّر: إدارة المحتوى
+    Route::middleware(['auth', 'role:admin,editor'])->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('titles', AdminTitleController::class)->except('show');
+        Route::resource('genres', AdminGenreController::class)->except(['show', 'create']);
+    });
+
+    // المدير فقط: إدارة المستخدمين
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+    });
 });

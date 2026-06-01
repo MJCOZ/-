@@ -29,3 +29,5 @@ Thumbs.db
 # Screenshot helper (local only)
 /shot.cjs
 /e2e.cjs
+/admin-e2e.cjs
+/authz-check.cjs

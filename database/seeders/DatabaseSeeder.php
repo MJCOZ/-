@@ -20,11 +20,13 @@ class DatabaseSeeder extends Seeder
         $admin = User::factory()->create([
             'name' => 'أحمد',
             'email' => 'ahmed@example.com',
+            'role' => User::ROLE_ADMIN,
         ]);
 
         $sara = User::factory()->create([
             'name' => 'سارة',
             'email' => 'sara@example.com',
+            'role' => User::ROLE_EDITOR,
         ]);
 
         $users = User::factory(5)->create()->push($admin, $sara);
