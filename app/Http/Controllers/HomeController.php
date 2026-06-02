@@ -36,6 +36,17 @@ class HomeController extends Controller
      */
     private function recommendations(): array
     {
+        // أولوية: ترشيحات يختارها المدير يدوياً
+        $featured = Title::featured()
+            ->withAvg('reviews', 'rating')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        if ($featured->isNotEmpty()) {
+            return [$featured, false];
+        }
+
         $user = Auth::user();
 
         if ($user) {

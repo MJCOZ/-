@@ -27,6 +27,7 @@ class Title extends Model
         'personal_rating',
         'watched',
         'watched_at',
+        'featured',
     ];
 
     protected function casts(): array
@@ -34,8 +35,17 @@ class Title extends Model
         return [
             'watched' => 'boolean',
             'watched_at' => 'date',
+            'featured' => 'boolean',
             'imdb_rating' => 'decimal:1',
         ];
+    }
+
+    /**
+     * نطاق: الأعمال المضافة للترشيحات.
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
     }
 
     /**

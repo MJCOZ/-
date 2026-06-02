@@ -71,9 +71,10 @@ class AdminTest extends TestCase
             'rt_rating' => 90,
             'personal_rating' => 9,
             'watched' => 1,
+            'featured' => 1,
         ])->assertRedirect('/admin/titles');
 
-        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true, 'platform' => 'Netflix', 'trailer_url' => 'https://www.youtube.com/watch?v=abc123']);
+        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true, 'featured' => true, 'platform' => 'Netflix', 'trailer_url' => 'https://www.youtube.com/watch?v=abc123']);
         $this->assertDatabaseHas('genre_title', ['genre_id' => $genre->id]);
     }
 

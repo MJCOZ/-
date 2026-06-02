@@ -35,6 +35,13 @@ class RecommendationTest extends TestCase
             ->assertSee('فيلم موصى به');
     }
 
+    public function test_featured_titles_appear_in_recommendations(): void
+    {
+        Title::factory()->create(['name' => 'فيلم مرشّح يدوياً', 'featured' => true]);
+
+        $this->get('/')->assertOk()->assertSee('ترشيحات')->assertSee('فيلم مرشّح يدوياً');
+    }
+
     public function test_guest_sees_general_picks(): void
     {
         $title = Title::factory()->create(['name' => 'اختيار عام']);

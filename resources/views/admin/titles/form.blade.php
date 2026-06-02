@@ -157,6 +157,11 @@
                                @checked(old('watched', $title->watched))>
                         <label class="form-check-label" for="watched">✅ شاهدت هذا العمل (يظهر في صفحة "شاهدتها")</label>
                     </div>
+                    <div class="form-check form-switch mt-2">
+                        <input type="checkbox" name="featured" value="1" id="featured" class="form-check-input"
+                               @checked(old('featured', $title->featured))>
+                        <label class="form-check-label" for="featured">⭐ إضافة إلى الترشيحات (يظهر في قسم "ترشيحات" بالرئيسية)</label>
+                    </div>
                 </div>
 
                 <div class="col-md-6">

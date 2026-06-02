@@ -107,6 +107,7 @@ class TitleController extends Controller
             'personal_rating' => ['nullable', 'integer', 'between:1,10'],
             'watched' => ['nullable', 'boolean'],
             'watched_at' => ['nullable', 'date'],
+            'featured' => ['nullable', 'boolean'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
         ], [], [
@@ -125,8 +126,9 @@ class TitleController extends Controller
             'personal_rating' => 'تقييمي الشخصي',
         ]);
 
-        // صندوق الاختيار: غير مرسل = false
+        // صناديق الاختيار: غير مرسلة = false
         $validated['watched'] = $request->boolean('watched');
+        $validated['featured'] = $request->boolean('featured');
 
         // التصنيف الأساسي = أول تصنيف مختار (للتوافق)
         $validated['genre_id'] = $request->input('genres.0');
