@@ -114,6 +114,22 @@ class Title extends Model
     /**
      * رابط البوستر: رابط خارجي أو ملف مرفوع أو بوستر مولّد محلياً.
      */
+    /**
+     * رابط تضمين إعلان يوتيوب (للتشغيل داخل الموقع)، أو null إن لم يكن رابط يوتيوب.
+     */
+    public function youtubeEmbedUrl(): ?string
+    {
+        if (blank($this->trailer_url)) {
+            return null;
+        }
+
+        if (preg_match('~(?:youtube\.com/(?:watch\?v=|embed/|shorts/|v/)|youtu\.be/)([A-Za-z0-9_-]{11})~', $this->trailer_url, $m)) {
+            return 'https://www.youtube.com/embed/' . $m[1];
+        }
+
+        return null;
+    }
+
     public function posterUrl(): string
     {
         if (filled($this->poster)) {

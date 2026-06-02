@@ -60,7 +60,11 @@
                     </span>
                 @endif
 
-                @if ($title->trailer_url)
+                @if ($title->youtubeEmbedUrl())
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#trailerModal">
+                        <i class="bi bi-youtube"></i> شاهد الإعلان
+                    </button>
+                @elseif ($title->trailer_url)
                     <a href="{{ $title->trailer_url }}" target="_blank" rel="noopener" class="btn btn-outline-danger">
                         <i class="bi bi-youtube"></i> الإعلان
                     </a>
@@ -136,6 +140,42 @@
                 @endforeach
             </div>
         </section>
+    @endif
+
+    {{-- نافذة الإعلان المدمج --}}
+    @if ($title->youtubeEmbedUrl())
+        <div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content bg-dark-2 border-0">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title"><i class="bi bi-youtube text-danger"></i> إعلان: {{ $title->name }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ratio ratio-16x9">
+                            <iframe id="trailerFrame" data-src="{{ $title->youtubeEmbedUrl() }}"
+                                    title="إعلان {{ $title->name }}" allowfullscreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @push('scripts')
+        <script>
+            (function () {
+                var modal = document.getElementById('trailerModal');
+                var frame = document.getElementById('trailerFrame');
+                modal.addEventListener('shown.bs.modal', function () {
+                    frame.src = frame.dataset.src + '?autoplay=1&rel=0';
+                });
+                modal.addEventListener('hidden.bs.modal', function () {
+                    frame.src = ''; // إيقاف التشغيل عند الإغلاق
+                });
+            })();
+        </script>
+        @endpush
     @endif
 
 @endsection

@@ -15,6 +15,9 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    // قرص تخزين البوسترات: 'public' (محلي مؤقت) أو 's3' (سحابي دائم مثل Cloudflare R2)
+    'poster_disk' => env('POSTER_DISK', 'public'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

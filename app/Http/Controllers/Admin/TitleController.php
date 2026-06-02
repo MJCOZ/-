@@ -153,12 +153,17 @@ class TitleController extends Controller
         unset($data['poster_file']);
 
         if ($request->hasFile('poster_file')) {
-            // حذف الصورة القديمة إن كانت ملفاً مرفوعاً
-            if ($title && $title->poster && ! str_starts_with($title->poster, 'http')) {
+            $disk = config('filesystems.poster_disk', 'public');
+
+            // حذف الصورة المحلية القديمة إن كانت ملفاً مرفوعاً على نفس القرص المحلي
+            if ($title && $title->poster && ! str_starts_with($title->poster, 'http') && $disk === 'public') {
                 Storage::disk('public')->delete($title->poster);
             }
 
-            $data['poster'] = $request->file('poster_file')->store('posters', 'public');
+            $path = $request->file('poster_file')->storePublicly('posters', $disk);
+
+            // القرص المحلي: نخزّن المسار (يُقدَّم عبر storage). السحابي: نخزّن الرابط الكامل الدائم.
+            $data['poster'] = $disk === 'public' ? $path : Storage::disk($disk)->url($path);
         } elseif ($title && blank($data['poster'] ?? null)) {
             // إبقاء البوستر الحالي إن لم يُرسل رابط أو ملف جديد
             $data['poster'] = $title->poster;
