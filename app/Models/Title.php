@@ -19,6 +19,7 @@ class Title extends Model
         'description',
         'platform',
         'watch_url',
+        'trailer_url',
         'poster',
         'release_year',
         'imdb_rating',

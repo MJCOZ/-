@@ -95,6 +95,13 @@
                            class="form-control bg-dark text-light border-secondary @error('watch_url') is-invalid @enderror">
                     @error('watch_url') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
+                <div class="col-12">
+                    <label class="form-label">▶️ رابط الإعلان (تريلر يوتيوب) <small class="text-secondary">(اختياري)</small></label>
+                    <input type="url" name="trailer_url" value="{{ old('trailer_url', $title->trailer_url) }}"
+                           placeholder="https://www.youtube.com/watch?v=..."
+                           class="form-control bg-dark text-light border-secondary @error('trailer_url') is-invalid @enderror">
+                    @error('trailer_url') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
 
                 {{-- الوسوم المتعددة --}}
                 <div class="col-12">

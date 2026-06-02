@@ -60,6 +60,12 @@
                     </span>
                 @endif
 
+                @if ($title->trailer_url)
+                    <a href="{{ $title->trailer_url }}" target="_blank" rel="noopener" class="btn btn-outline-danger">
+                        <i class="bi bi-youtube"></i> الإعلان
+                    </a>
+                @endif
+
                 @include('partials.watchlist-button', ['title' => $title])
             </div>
         </div>

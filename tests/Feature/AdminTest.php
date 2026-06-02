@@ -66,13 +66,14 @@ class AdminTest extends TestCase
             'release_year' => 2020,
             'platform' => 'Netflix',
             'watch_url' => 'https://example.com/watch',
+            'trailer_url' => 'https://www.youtube.com/watch?v=abc123',
             'imdb_rating' => 8.5,
             'rt_rating' => 90,
             'personal_rating' => 9,
             'watched' => 1,
         ])->assertRedirect('/admin/titles');
 
-        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true, 'platform' => 'Netflix']);
+        $this->assertDatabaseHas('titles', ['name' => 'عمل جديد', 'watched' => true, 'platform' => 'Netflix', 'trailer_url' => 'https://www.youtube.com/watch?v=abc123']);
         $this->assertDatabaseHas('genre_title', ['genre_id' => $genre->id]);
     }
 
