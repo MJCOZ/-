@@ -32,7 +32,7 @@ class FetchPosters extends Command
                 continue;
             }
 
-            $poster = $this->fetchPoster($title->name, $title->release_year);
+            $poster = $this->fetchPoster($title->name, $title->release_year, $title->type);
 
             if ($poster) {
                 $title->update(['poster' => $poster]);
@@ -53,12 +53,14 @@ class FetchPosters extends Command
     /**
      * إيجاد رابط بوستر العمل من ويكيبيديا.
      */
-    private function fetchPoster(string $name, ?int $year): ?string
+    private function fetchPoster(string $name, ?int $year, string $type = 'movie'): ?string
     {
+        $kind = $type === 'series' ? 'TV series' : 'film';
+
         // عناوين مرشّحة (الأدق أولاً)، ثم البحث كحل أخير
         $candidates = array_filter([
-            $year ? "{$name} ({$year} film)" : null,
-            "{$name} (film)",
+            $year ? "{$name} ({$year} {$kind})" : null,
+            "{$name} ({$kind})",
             $name,
         ]);
 
@@ -71,7 +73,7 @@ class FetchPosters extends Command
         // حل أخير: البحث
         $res = $this->get('https://en.wikipedia.org/w/api.php', [
             'action' => 'query', 'list' => 'search', 'format' => 'json',
-            'srsearch' => trim("{$name} film"), 'srlimit' => 1,
+            'srsearch' => trim("{$name} {$kind}"), 'srlimit' => 1,
         ]);
         $hit = $res?->json('query.search.0.title');
 

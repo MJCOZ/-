@@ -33,8 +33,9 @@ if [ -n "${ADMIN_EMAIL}" ]; then
     php artisan app:make-admin --bootstrap || true
 fi
 
-# إضافة/تحديث مجموعة الأفلام (آمن للتكرار: ينشئ الناقص ويملأ الفارغ فقط)
+# إضافة/تحديث مكتبة الأعمال (آمن للتكرار: ينشئ الناقص ويملأ الفارغ فقط)
 php artisan db:seed --class=FilmsSeeder --force || true
+php artisan db:seed --class=CatalogSeeder --force || true
 
 # تحسين الأداء للإنتاج (كاش الإعدادات والمسارات والواجهات)
 php artisan config:cache
