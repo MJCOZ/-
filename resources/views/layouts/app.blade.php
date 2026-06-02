@@ -136,6 +136,19 @@
         ::-webkit-scrollbar-thumb { background: #2c3344; border-radius: 6px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
+        /* ترقيم الصفحات (Bootstrap) على ثيم الموقع */
+        .pagination { --bs-pagination-bg: var(--surface); --bs-pagination-color: var(--text);
+            --bs-pagination-border-color: rgba(255,255,255,.1);
+            --bs-pagination-hover-bg: var(--surface-2); --bs-pagination-hover-color: var(--accent);
+            --bs-pagination-hover-border-color: rgba(255,193,7,.4);
+            --bs-pagination-focus-bg: var(--surface-2); --bs-pagination-focus-color: var(--accent);
+            --bs-pagination-active-bg: var(--accent); --bs-pagination-active-border-color: var(--accent);
+            --bs-pagination-active-color: #1a1d27;
+            --bs-pagination-disabled-bg: var(--surface); --bs-pagination-disabled-color: #6b7280;
+            --bs-pagination-disabled-border-color: rgba(255,255,255,.08);
+            gap: .25rem; flex-wrap: wrap; }
+        .pagination .page-link { border-radius: .5rem; min-width: 42px; text-align: center; transition: all .15s; }
+
         /* زر العودة للأعلى */
         #toTop {
             position: fixed; inset-block-end: 24px; inset-inline-start: 24px; z-index: 1030;
