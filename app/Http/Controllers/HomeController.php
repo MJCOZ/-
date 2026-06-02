@@ -15,10 +15,10 @@ class HomeController extends Controller
     {
         $latest = Title::latest()->take(6)->get();
 
+        // الأعلى تقييماً حسب IMDb
         $topRated = Title::withAvg('reviews', 'rating')
-            ->withCount('reviews')
-            ->whereHas('reviews')
-            ->orderByDesc('reviews_avg_rating')
+            ->whereNotNull('imdb_rating')
+            ->orderByDesc('imdb_rating')
             ->take(6)
             ->get();
 

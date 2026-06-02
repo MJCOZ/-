@@ -89,7 +89,7 @@
     {{-- الأعلى تقييماً --}}
     <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0"><i class="bi bi-trophy-fill text-warning"></i> الأعلى تقييماً</h3>
+            <h3 class="mb-0"><i class="bi bi-trophy-fill text-warning"></i> الأعلى تقييماً <small class="text-secondary">(IMDb)</small></h3>
         </div>
         <div class="row g-3">
             @foreach ($topRated as $title)
