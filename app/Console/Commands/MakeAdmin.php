@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-#[Signature('app:make-admin {email? : بريد المدير} {--password= : كلمة المرور} {--name= : الاسم}')]
+#[Signature('app:make-admin {email? : بريد المدير} {--password= : كلمة المرور} {--name= : الاسم} {--bootstrap : لا يفعل شيئاً إن كان هناك مدير بالفعل}')]
 #[Description('إنشاء أو ترقية حساب مدير (يقرأ ADMIN_EMAIL/ADMIN_PASSWORD إن لم تُمرّر)')]
 class MakeAdmin extends Command
 {
@@ -18,6 +18,13 @@ class MakeAdmin extends Command
      */
     public function handle(): int
     {
+        // وضع التأسيس التلقائي: إن كان هناك مدير بالفعل لا نلمس شيئاً
+        // (حتى لا تُستبدل تعديلات المستخدم لبريده/كلمة سرّه عند كل نشر).
+        if ($this->option('bootstrap') && User::where('role', User::ROLE_ADMIN)->exists()) {
+            $this->info('يوجد مدير بالفعل — تخطّي التزويد التلقائي.');
+            return self::SUCCESS;
+        }
+
         $email = $this->argument('email') ?: env('ADMIN_EMAIL');
         $password = $this->option('password') ?: env('ADMIN_PASSWORD');
         $name = $this->option('name') ?: 'مدير';
