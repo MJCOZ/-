@@ -47,6 +47,15 @@ class PublicPagesTest extends TestCase
             ->assertDontSee('مسلسلي');
     }
 
+    public function test_search_is_case_insensitive(): void
+    {
+        Title::factory()->create(['name' => 'The Matrix']);
+
+        $this->get('/titles?q=matrix')->assertOk()->assertSee('The Matrix');
+        $this->get('/titles?q=MATRIX')->assertOk()->assertSee('The Matrix');
+        $this->get('/titles?q=mAtRiX')->assertOk()->assertSee('The Matrix');
+    }
+
     public function test_movies_page_shows_only_movies(): void
     {
         Title::factory()->movie()->create(['name' => 'فيلم منفصل']);

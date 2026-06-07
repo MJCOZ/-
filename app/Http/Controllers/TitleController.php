@@ -17,13 +17,14 @@ class TitleController extends Controller
 
         $q = trim((string) $request->get('q'));
         if ($q !== '') {
-            // بحث موسّع: الاسم أو الوصف أو المنصة أو التصنيف أو الوسم
-            $query->where(function ($sub) use ($q) {
-                $sub->where('name', 'like', "%{$q}%")
-                    ->orWhere('description', 'like', "%{$q}%")
-                    ->orWhere('platform', 'like', "%{$q}%")
-                    ->orWhereHas('genres', fn ($g) => $g->where('name', 'like', "%{$q}%"))
-                    ->orWhereHas('tags', fn ($t) => $t->where('name', 'like', "%{$q}%"));
+            // بحث موسّع غير حسّاس لحالة الأحرف (يعمل على pgsql و sqlite)
+            $like = '%' . mb_strtolower($q) . '%';
+            $query->where(function ($sub) use ($like) {
+                $sub->whereRaw('LOWER(name) LIKE ?', [$like])
+                    ->orWhereRaw('LOWER(description) LIKE ?', [$like])
+                    ->orWhereRaw('LOWER(platform) LIKE ?', [$like])
+                    ->orWhereHas('genres', fn ($g) => $g->whereRaw('LOWER(genres.name) LIKE ?', [$like]))
+                    ->orWhereHas('tags', fn ($t) => $t->whereRaw('LOWER(tags.name) LIKE ?', [$like]));
             });
         }
 
