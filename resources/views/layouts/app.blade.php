@@ -19,6 +19,7 @@
     <link href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/fonts/tajawal.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/fonts/orbitron.css') }}" rel="stylesheet">
 
     <style>
         :root {
@@ -213,36 +214,39 @@
         }
         /* شبكة الأفق الريترو */
         body::before{
-            content:""; position:fixed; left:0; right:0; bottom:0; height:42vh; z-index:-1; pointer-events:none;
+            content:""; position:fixed; left:0; right:0; bottom:0; height:40vh; z-index:-1; pointer-events:none;
             background-image:
-                repeating-linear-gradient(to right, rgba(0,229,255,.22) 0 1px, transparent 1px 6.5%),
-                repeating-linear-gradient(to top, rgba(255,46,151,.22) 0 1px, transparent 1px 13%);
-            transform:perspective(420px) rotateX(62deg); transform-origin:bottom; opacity:.45;
+                repeating-linear-gradient(to right, rgba(0,229,255,.12) 0 1px, transparent 1px 7%),
+                repeating-linear-gradient(to top, rgba(255,46,151,.12) 0 1px, transparent 1px 14%);
+            transform:perspective(420px) rotateX(62deg); transform-origin:bottom; opacity:.28;
             -webkit-mask-image:linear-gradient(to top,#000,transparent);
             mask-image:linear-gradient(to top,#000,transparent);
         }
-        h1,h2,h3,.navbar-brand{ text-shadow:0 0 8px rgba(255,46,151,.45),0 0 22px rgba(255,46,151,.22); letter-spacing:.5px; }
-        .navbar-brand{ color:#fff!important; }
-        .navbar-brand .bi{ color:var(--accent-2)!important; filter:drop-shadow(0 0 8px rgba(0,229,255,.8)); }
+        h1,h2,h3,.navbar-brand{
+            font-family:'Orbitron','Tajawal',sans-serif;
+            text-shadow:0 0 6px rgba(255,46,151,.22); letter-spacing:.5px;
+        }
+        .navbar-brand{ color:#fff!important; font-weight:700; }
+        .navbar-brand .bi{ color:var(--accent-2)!important; filter:drop-shadow(0 0 5px rgba(0,229,255,.55)); }
 
-        .text-warning{ color:var(--accent-2)!important; text-shadow:0 0 8px rgba(0,229,255,.4); }
+        .text-warning{ color:var(--accent-2)!important; text-shadow:0 0 5px rgba(0,229,255,.22); }
         .rating-stars,.star-input input:checked ~ label,.star-input label:hover,.star-input label:hover ~ label{ color:var(--accent)!important; }
 
-        .navbar.bg-dark-2{ background-color:rgba(13,2,33,.72)!important; border-bottom:1px solid rgba(255,46,151,.4); box-shadow:0 2px 18px rgba(255,46,151,.18); }
+        .navbar.bg-dark-2{ background-color:rgba(13,2,33,.78)!important; border-bottom:1px solid rgba(255,46,151,.28); }
         .bg-dark-2{ background-color:var(--surface)!important; }
         .nav-link:hover{ color:var(--accent-2)!important; }
 
-        .btn-warning{ background:linear-gradient(135deg,#ff2e97,#ff6ec7)!important; border:1px solid #ff2e97!important; color:#1a0030!important; font-weight:700; box-shadow:0 0 16px rgba(255,46,151,.5)!important; }
-        .btn-warning:hover{ box-shadow:0 0 26px rgba(255,46,151,.85)!important; }
+        .btn-warning{ background:linear-gradient(135deg,#ff2e97,#ff6ec7)!important; border:1px solid #ff2e97!important; color:#1a0030!important; font-weight:700; box-shadow:0 3px 12px rgba(255,46,151,.28)!important; }
+        .btn-warning:hover{ box-shadow:0 4px 18px rgba(255,46,151,.45)!important; }
         .btn-outline-warning{ color:var(--accent-2)!important; border-color:var(--accent-2)!important; }
-        .btn-outline-warning:hover{ background:var(--accent-2)!important; color:#04121a!important; box-shadow:0 0 18px rgba(0,229,255,.6); }
+        .btn-outline-warning:hover{ background:var(--accent-2)!important; color:#04121a!important; }
         .btn-outline-secondary:hover{ border-color:var(--accent-2)!important; color:var(--accent-2)!important; }
 
-        .card-title-poster{ background-color:var(--surface)!important; border:1px solid rgba(0,229,255,.18)!important; }
-        .card-title-poster:hover{ border-color:var(--accent)!important; box-shadow:0 0 28px rgba(255,46,151,.45)!important; }
-        .card-title-poster:hover .poster-play{ color:var(--accent-2)!important; text-shadow:0 0 18px rgba(0,229,255,.9); }
+        .card-title-poster{ background-color:var(--surface)!important; border:1px solid rgba(0,229,255,.14)!important; }
+        .card-title-poster:hover{ border-color:var(--accent)!important; box-shadow:0 8px 22px rgba(255,46,151,.25)!important; }
+        .card-title-poster:hover .poster-play{ color:var(--accent-2)!important; text-shadow:0 0 12px rgba(0,229,255,.6); }
 
-        .hero{ background:linear-gradient(135deg,rgba(255,46,151,.22),rgba(58,12,163,.5) 50%,#0d0221)!important; border:1px solid rgba(0,229,255,.3)!important; box-shadow:0 0 40px rgba(255,46,151,.15),inset 0 0 60px rgba(0,0,0,.45)!important; }
+        .hero{ background:linear-gradient(135deg,rgba(255,46,151,.16),rgba(58,12,163,.42) 50%,#0d0221)!important; border:1px solid rgba(0,229,255,.2)!important; box-shadow:inset 0 0 60px rgba(0,0,0,.45)!important; }
 
         .form-control:focus,.form-select:focus{ border-color:var(--accent)!important; box-shadow:0 0 0 .2rem rgba(255,46,151,.2)!important; background-color:#160a2e!important; }
         .bg-dark{ background-color:#160a2e!important; }
