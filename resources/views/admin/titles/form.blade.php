@@ -57,7 +57,7 @@
                 <div class="col-md-6">
                     <label class="form-label">سنة الإصدار</label>
                     <input type="number" name="release_year" value="{{ old('release_year', $title->release_year) }}"
-                           min="1900" max="2100"
+                           min="1900" max="2100" dir="ltr" lang="en" inputmode="numeric"
                            class="form-control bg-dark text-light border-secondary @error('release_year') is-invalid @enderror">
                     @error('release_year') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
@@ -134,7 +134,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">🟡 تقييم IMDb <small class="text-secondary">(0 - 10)</small></label>
-                    <input type="number" step="0.1" min="0" max="10" name="imdb_rating"
+                    <input type="number" step="0.1" min="0" max="10" name="imdb_rating" dir="ltr" lang="en" inputmode="decimal"
                            value="{{ old('imdb_rating', $title->imdb_rating) }}"
                            class="form-control bg-dark text-light border-secondary @error('imdb_rating') is-invalid @enderror">
                     @error('imdb_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -142,7 +142,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">🍅 Rotten Tomatoes <small class="text-secondary">(0 - 100%)</small></label>
-                    <input type="number" min="0" max="100" name="rt_rating"
+                    <input type="number" min="0" max="100" name="rt_rating" dir="ltr" lang="en" inputmode="numeric"
                            value="{{ old('rt_rating', $title->rt_rating) }}"
                            class="form-control bg-dark text-light border-secondary @error('rt_rating') is-invalid @enderror">
                     @error('rt_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -150,7 +150,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">⭐ تقييمي الشخصي <small class="text-secondary">(1 - 10)</small></label>
-                    <input type="number" min="1" max="10" name="personal_rating"
+                    <input type="number" min="1" max="10" name="personal_rating" dir="ltr" lang="en" inputmode="numeric"
                            value="{{ old('personal_rating', $title->personal_rating) }}"
                            class="form-control bg-dark text-light border-secondary @error('personal_rating') is-invalid @enderror">
                     @error('personal_rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
