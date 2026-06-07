@@ -28,9 +28,9 @@ php artisan storage:link || true
 # تشغيل الهجرات فقط (بدون بذر تلقائي — لا تُضاف أعمال تلقائياً)
 php artisan migrate --force
 
-# تأسيس أول حساب مدير من المتغيّرات (مرة واحدة فقط — لا يلمس مديراً موجوداً)
+# ضمان حساب المدير من المتغيّرات في كل تشغيل (يثبّت الدخول حتى لو أُعيد ضبط القاعدة)
 if [ -n "${ADMIN_EMAIL}" ]; then
-    php artisan app:make-admin --bootstrap || true
+    php artisan app:make-admin || true
 fi
 
 # تحسين الأداء للإنتاج (كاش الإعدادات والمسارات والواجهات)
