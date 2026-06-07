@@ -200,6 +200,77 @@
             background: linear-gradient(to top, rgba(255,255,255,.9), transparent 45%);
         }
         [data-theme="light"] #toTop { color: #1a1d27; }
+
+        /* ============ RETRO / SYNTHWAVE THEME ============ */
+        :root{
+            --bg:#0d0221; --surface:#1b1036; --surface-2:#2a1a4a;
+            --accent:#ff2e97; --accent-2:#00e5ff; --text:#f3e9ff;
+        }
+        body{
+            background-color:var(--bg);
+            background-image:linear-gradient(180deg,#3a0ca3 0%,#240046 38%,#0d0221 72%);
+            background-attachment:fixed;
+        }
+        /* شبكة الأفق الريترو */
+        body::before{
+            content:""; position:fixed; left:0; right:0; bottom:0; height:42vh; z-index:-1; pointer-events:none;
+            background-image:
+                repeating-linear-gradient(to right, rgba(0,229,255,.22) 0 1px, transparent 1px 6.5%),
+                repeating-linear-gradient(to top, rgba(255,46,151,.22) 0 1px, transparent 1px 13%);
+            transform:perspective(420px) rotateX(62deg); transform-origin:bottom; opacity:.45;
+            -webkit-mask-image:linear-gradient(to top,#000,transparent);
+            mask-image:linear-gradient(to top,#000,transparent);
+        }
+        h1,h2,h3,.navbar-brand{ text-shadow:0 0 8px rgba(255,46,151,.45),0 0 22px rgba(255,46,151,.22); letter-spacing:.5px; }
+        .navbar-brand{ color:#fff!important; }
+        .navbar-brand .bi{ color:var(--accent-2)!important; filter:drop-shadow(0 0 8px rgba(0,229,255,.8)); }
+
+        .text-warning{ color:var(--accent-2)!important; text-shadow:0 0 8px rgba(0,229,255,.4); }
+        .rating-stars,.star-input input:checked ~ label,.star-input label:hover,.star-input label:hover ~ label{ color:var(--accent)!important; }
+
+        .navbar.bg-dark-2{ background-color:rgba(13,2,33,.72)!important; border-bottom:1px solid rgba(255,46,151,.4); box-shadow:0 2px 18px rgba(255,46,151,.18); }
+        .bg-dark-2{ background-color:var(--surface)!important; }
+        .nav-link:hover{ color:var(--accent-2)!important; }
+
+        .btn-warning{ background:linear-gradient(135deg,#ff2e97,#ff6ec7)!important; border:1px solid #ff2e97!important; color:#1a0030!important; font-weight:700; box-shadow:0 0 16px rgba(255,46,151,.5)!important; }
+        .btn-warning:hover{ box-shadow:0 0 26px rgba(255,46,151,.85)!important; }
+        .btn-outline-warning{ color:var(--accent-2)!important; border-color:var(--accent-2)!important; }
+        .btn-outline-warning:hover{ background:var(--accent-2)!important; color:#04121a!important; box-shadow:0 0 18px rgba(0,229,255,.6); }
+        .btn-outline-secondary:hover{ border-color:var(--accent-2)!important; color:var(--accent-2)!important; }
+
+        .card-title-poster{ background-color:var(--surface)!important; border:1px solid rgba(0,229,255,.18)!important; }
+        .card-title-poster:hover{ border-color:var(--accent)!important; box-shadow:0 0 28px rgba(255,46,151,.45)!important; }
+        .card-title-poster:hover .poster-play{ color:var(--accent-2)!important; text-shadow:0 0 18px rgba(0,229,255,.9); }
+
+        .hero{ background:linear-gradient(135deg,rgba(255,46,151,.22),rgba(58,12,163,.5) 50%,#0d0221)!important; border:1px solid rgba(0,229,255,.3)!important; box-shadow:0 0 40px rgba(255,46,151,.15),inset 0 0 60px rgba(0,0,0,.45)!important; }
+
+        .form-control:focus,.form-select:focus{ border-color:var(--accent)!important; box-shadow:0 0 0 .2rem rgba(255,46,151,.2)!important; background-color:#160a2e!important; }
+        .bg-dark{ background-color:#160a2e!important; }
+
+        .badge.bg-primary{ background:#7b2ff7!important; }
+        .badge.bg-success{ background:#00b4a0!important; }
+        .badge.bg-info{ background:var(--accent-2)!important; color:#04121a!important; }
+
+        ::-webkit-scrollbar-thumb{ background:#5a189a; }
+        ::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+        .pagination{ --bs-pagination-bg:var(--surface); --bs-pagination-color:var(--text);
+            --bs-pagination-hover-color:var(--accent-2);
+            --bs-pagination-active-bg:var(--accent); --bs-pagination-active-border-color:var(--accent); --bs-pagination-active-color:#1a0030; }
+        #toTop{ background:linear-gradient(135deg,#ff2e97,#00e5ff)!important; color:#0d0221!important; box-shadow:0 0 18px rgba(255,46,151,.6); }
+        footer{ border-top:1px solid rgba(0,229,255,.25); }
+
+        /* الوضع النهاري: ريترو دافئ (70s) */
+        [data-theme="light"]{ --bg:#fff3da; --surface:#fffaf0; --surface-2:#f6ead2; --accent:#ff5c8a; --accent-2:#0a9aab; --text:#3a2a1a; }
+        [data-theme="light"] body{ background-image:linear-gradient(180deg,#ffe2c4,#fff3da 60%)!important; }
+        [data-theme="light"] body::before{ opacity:.2; }
+        [data-theme="light"] h1,[data-theme="light"] h2,[data-theme="light"] h3,[data-theme="light"] .navbar-brand{ text-shadow:none; }
+        [data-theme="light"] .navbar-brand{ color:#7a3b12!important; }
+        [data-theme="light"] .text-warning{ color:#e0007a!important; text-shadow:none; }
+        [data-theme="light"] .navbar.bg-dark-2{ background-color:rgba(255,250,240,.92)!important; border-bottom-color:rgba(224,0,122,.3); box-shadow:none; }
+        [data-theme="light"] .card-title-poster{ background:#fff!important; border-color:rgba(224,0,122,.2)!important; }
+        [data-theme="light"] .btn-warning{ color:#fff!important; }
+        [data-theme="light"] .bg-dark{ background-color:#fff!important; }
+        [data-theme="light"] .form-control:focus,[data-theme="light"] .form-select:focus{ background-color:#fff!important; }
     </style>
     @stack('styles')
 </head>
