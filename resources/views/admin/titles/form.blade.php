@@ -36,6 +36,10 @@
                 <div class="col-12">
                     <label class="form-label">التصنيفات <small class="text-secondary">(اختر واحداً أو أكثر)</small></label>
                     @php $selectedGenres = old('genres', isset($title) ? $title->genres->pluck('id')->all() : []); @endphp
+                    @if ($genres->isEmpty())
+                        <div class="text-secondary small">لا توجد تصنيفات بعد —
+                            <a href="{{ route('admin.genres.index') }}" class="text-warning">أضف تصنيفات أولاً</a>.</div>
+                    @else
                     <div class="d-flex flex-wrap gap-3 bg-dark p-3 rounded border border-secondary @error('genres') border-danger @enderror">
                         @foreach ($genres as $genre)
                             <div class="form-check">
@@ -46,6 +50,7 @@
                             </div>
                         @endforeach
                     </div>
+                    @endif
                     @error('genres.*') <div class="text-danger small">{{ $message }}</div> @enderror
                 </div>
 

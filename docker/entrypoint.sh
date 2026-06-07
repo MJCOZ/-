@@ -31,6 +31,9 @@ php artisan migrate --force
 # ضمان حساب المدير في كل تشغيل (افتراضي مدمج، أو من ADMIN_EMAIL/ADMIN_PASSWORD إن وُجدت)
 php artisan app:make-admin || true
 
+# تصنيفات ووسوم افتراضية (مرة واحدة فقط على قاعدة فارغة)
+php artisan db:seed --class=BaseDataSeeder --force || true
+
 # تحسين الأداء للإنتاج (كاش الإعدادات والمسارات والواجهات)
 php artisan config:cache
 php artisan route:cache
