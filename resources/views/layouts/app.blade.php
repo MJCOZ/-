@@ -222,6 +222,37 @@
             -webkit-mask-image:linear-gradient(to top,#000,transparent);
             mask-image:linear-gradient(to top,#000,transparent);
         }
+        /* نجوم الخلفية المتوهّجة المتحركة */
+        .stars{
+            position:fixed; inset:0; z-index:-1; pointer-events:none;
+            background-repeat:repeat; background-size:240px 240px;
+            background-image:
+                radial-gradient(1.6px 1.6px at 20% 30%, #ffffff, transparent),
+                radial-gradient(1.4px 1.4px at 70% 18%, #bfefff, transparent),
+                radial-gradient(1.3px 1.3px at 42% 72%, #ff9ad1, transparent),
+                radial-gradient(1.6px 1.6px at 86% 60%, #ffffff, transparent),
+                radial-gradient(1.2px 1.2px at 14% 86%, #9be7ff, transparent),
+                radial-gradient(1.3px 1.3px at 55% 45%, #ffffff, transparent),
+                radial-gradient(1.1px 1.1px at 92% 33%, #ffd1ec, transparent),
+                radial-gradient(1.2px 1.2px at 32% 14%, #ffffff, transparent);
+            filter:drop-shadow(0 0 3px rgba(0,229,255,.5));
+            animation:starDrift 130s linear infinite, twinkle 5s ease-in-out infinite alternate;
+        }
+        .stars::after{
+            content:""; position:absolute; inset:0; opacity:.55;
+            background-repeat:repeat; background-size:160px 160px;
+            background-image:
+                radial-gradient(1px 1px at 12% 22%, #ffffff, transparent),
+                radial-gradient(1px 1px at 60% 50%, #cdefff, transparent),
+                radial-gradient(1px 1px at 80% 12%, #ffffff, transparent),
+                radial-gradient(1px 1px at 35% 88%, #ffc7e6, transparent),
+                radial-gradient(1px 1px at 95% 75%, #ffffff, transparent);
+            animation:starDrift 90s linear infinite reverse, twinkle 7s ease-in-out infinite alternate;
+        }
+        @keyframes starDrift{ from{ background-position:0 0; } to{ background-position:0 -1000px; } }
+        @keyframes twinkle{ from{ opacity:.55; } to{ opacity:1; } }
+        @media (prefers-reduced-motion: reduce){ .stars,.stars::after{ animation:none; } }
+
         h1,h2,h3,.navbar-brand{
             font-family:'Orbitron','Tajawal',sans-serif;
             text-shadow:0 0 6px rgba(255,46,151,.22); letter-spacing:.5px;
@@ -289,12 +320,16 @@
         [data-theme="light"] .navbar.bg-dark-2{ background-color:rgba(255,250,240,.92)!important; border-bottom-color:rgba(224,0,122,.3); box-shadow:none; }
         [data-theme="light"] .card-title-poster{ background:#fff!important; border-color:rgba(224,0,122,.2)!important; }
         [data-theme="light"] .btn-warning{ color:#fff!important; }
+        [data-theme="light"] .stars{ display:none; }
         [data-theme="light"] .bg-dark{ background-color:#fff!important; }
         [data-theme="light"] .form-control:focus,[data-theme="light"] .form-select:focus{ background-color:#fff!important; }
     </style>
     @stack('styles')
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+    {{-- نجوم الخلفية المتوهّجة --}}
+    <div class="stars" aria-hidden="true"></div>
 
     {{-- شريط التنقل --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-2 shadow-sm sticky-top">
