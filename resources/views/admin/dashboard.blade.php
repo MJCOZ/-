@@ -6,6 +6,19 @@
     <h2 class="mb-4"><i class="bi bi-speedometer2 text-warning"></i> لوحة التحكم</h2>
     @include('admin.partials.nav', ['active' => 'dashboard'])
 
+    {{-- حالة قاعدة البيانات --}}
+    @if ($dbDriver === 'sqlite')
+        <div class="alert alert-warning d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <div>قاعدة البيانات الحالية <strong>SQLite (مؤقتة)</strong> — البيانات تُمسح عند إعادة النشر/التشغيل. اربط PostgreSQL لحفظها دائماً.</div>
+        </div>
+    @else
+        <div class="alert alert-success d-flex align-items-center gap-2">
+            <i class="bi bi-shield-check"></i>
+            <div>قاعدة البيانات <strong>{{ $dbDriver }} (دائمة)</strong> ✓ — كل إضافاتك وتعديلاتك محفوظة وتبقى بعد النشر.</div>
+        </div>
+    @endif
+
     {{-- بطاقات الإحصائيات --}}
     <div class="row g-3 mb-4">
         @php

@@ -7,6 +7,7 @@ use App\Models\Genre;
 use App\Models\Review;
 use App\Models\Title;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -24,8 +25,9 @@ class DashboardController extends Controller
             'users' => User::count(),
         ];
 
+        $dbDriver = DB::connection()->getDriverName();
         $latestReviews = Review::with(['user', 'title'])->latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'latestReviews'));
+        return view('admin.dashboard', compact('stats', 'latestReviews', 'dbDriver'));
     }
 }
