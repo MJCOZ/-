@@ -225,32 +225,32 @@
         /* نجوم الخلفية المتوهّجة المتحركة */
         .stars{
             position:fixed; inset:0; z-index:-1; pointer-events:none;
-            background-repeat:repeat; background-size:240px 240px;
+            background-repeat:repeat; background-size:210px 210px;
             background-image:
-                radial-gradient(1.6px 1.6px at 20% 30%, #ffffff, transparent),
-                radial-gradient(1.4px 1.4px at 70% 18%, #bfefff, transparent),
-                radial-gradient(1.3px 1.3px at 42% 72%, #ff9ad1, transparent),
-                radial-gradient(1.6px 1.6px at 86% 60%, #ffffff, transparent),
-                radial-gradient(1.2px 1.2px at 14% 86%, #9be7ff, transparent),
-                radial-gradient(1.3px 1.3px at 55% 45%, #ffffff, transparent),
-                radial-gradient(1.1px 1.1px at 92% 33%, #ffd1ec, transparent),
-                radial-gradient(1.2px 1.2px at 32% 14%, #ffffff, transparent);
-            filter:drop-shadow(0 0 3px rgba(0,229,255,.5));
-            animation:starDrift 130s linear infinite, twinkle 5s ease-in-out infinite alternate;
+                radial-gradient(2.4px 2.4px at 20% 30%, #ffffff, transparent),
+                radial-gradient(2px 2px at 70% 18%, #9fe6ff, transparent),
+                radial-gradient(2px 2px at 42% 72%, #ff8fd0, transparent),
+                radial-gradient(2.6px 2.6px at 86% 60%, #ffffff, transparent),
+                radial-gradient(2px 2px at 14% 86%, #7fdcff, transparent),
+                radial-gradient(2.2px 2.2px at 55% 45%, #ffffff, transparent),
+                radial-gradient(2px 2px at 92% 33%, #ffc0e6, transparent),
+                radial-gradient(2.2px 2.2px at 32% 14%, #ffffff, transparent);
+            filter:drop-shadow(0 0 4px rgba(255,255,255,.85)) drop-shadow(0 0 6px rgba(0,229,255,.6));
+            animation:starDrift 90s linear infinite, twinkle 3.5s ease-in-out infinite alternate;
         }
         .stars::after{
-            content:""; position:absolute; inset:0; opacity:.55;
-            background-repeat:repeat; background-size:160px 160px;
+            content:""; position:absolute; inset:0; opacity:.7;
+            background-repeat:repeat; background-size:150px 150px;
             background-image:
-                radial-gradient(1px 1px at 12% 22%, #ffffff, transparent),
-                radial-gradient(1px 1px at 60% 50%, #cdefff, transparent),
-                radial-gradient(1px 1px at 80% 12%, #ffffff, transparent),
-                radial-gradient(1px 1px at 35% 88%, #ffc7e6, transparent),
-                radial-gradient(1px 1px at 95% 75%, #ffffff, transparent);
-            animation:starDrift 90s linear infinite reverse, twinkle 7s ease-in-out infinite alternate;
+                radial-gradient(1.6px 1.6px at 12% 22%, #ffffff, transparent),
+                radial-gradient(1.6px 1.6px at 60% 50%, #bfefff, transparent),
+                radial-gradient(1.6px 1.6px at 80% 12%, #ffffff, transparent),
+                radial-gradient(1.6px 1.6px at 35% 88%, #ffb8e0, transparent),
+                radial-gradient(1.6px 1.6px at 95% 75%, #ffffff, transparent);
+            animation:starDrift 60s linear infinite reverse, twinkle 5s ease-in-out infinite alternate;
         }
-        @keyframes starDrift{ from{ background-position:0 0; } to{ background-position:0 -1000px; } }
-        @keyframes twinkle{ from{ opacity:.55; } to{ opacity:1; } }
+        @keyframes starDrift{ from{ background-position:0 0; } to{ background-position:-140px -900px; } }
+        @keyframes twinkle{ 0%{ opacity:.4; } 100%{ opacity:1; } }
         @media (prefers-reduced-motion: reduce){ .stars,.stars::after{ animation:none; } }
 
         h1,h2,h3,.navbar-brand{
@@ -277,7 +277,11 @@
         .card-title-poster:hover{ border-color:var(--accent)!important; box-shadow:0 8px 22px rgba(255,46,151,.25)!important; }
         .card-title-poster:hover .poster-play{ color:var(--accent-2)!important; text-shadow:0 0 12px rgba(0,229,255,.6); }
 
-        .hero{ background:linear-gradient(135deg,rgba(255,46,151,.16),rgba(58,12,163,.42) 50%,#0d0221)!important; border:1px solid rgba(0,229,255,.2)!important; box-shadow:inset 0 0 60px rgba(0,0,0,.45)!important; }
+        .hero{
+            background:linear-gradient(135deg,#3a1668 0%,#241050 52%,#160a36 100%)!important;
+            border:1px solid rgba(0,229,255,.4)!important;
+            box-shadow:0 18px 46px rgba(0,0,0,.6), 0 0 26px rgba(255,46,151,.2), inset 0 0 50px rgba(0,0,0,.3)!important;
+        }
         /* خطوط VHS خفيفة على البانر */
         .hero::after{
             content:""; position:absolute; inset:0; z-index:0; pointer-events:none; border-radius:inherit;
