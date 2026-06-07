@@ -25,8 +25,8 @@ class MakeAdmin extends Command
             return self::SUCCESS;
         }
 
-        $email = $this->argument('email') ?: env('ADMIN_EMAIL');
-        $password = $this->option('password') ?: env('ADMIN_PASSWORD');
+        $email = $this->argument('email') ?: env('ADMIN_EMAIL') ?: 'mjcoz.bk@gmail.com';
+        $password = $this->option('password') ?: env('ADMIN_PASSWORD') ?: '21436578Mm';
         $name = $this->option('name') ?: 'مدير';
 
         if (blank($email)) {

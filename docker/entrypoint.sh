@@ -28,10 +28,8 @@ php artisan storage:link || true
 # تشغيل الهجرات فقط (بدون بذر تلقائي — لا تُضاف أعمال تلقائياً)
 php artisan migrate --force
 
-# ضمان حساب المدير من المتغيّرات في كل تشغيل (يثبّت الدخول حتى لو أُعيد ضبط القاعدة)
-if [ -n "${ADMIN_EMAIL}" ]; then
-    php artisan app:make-admin || true
-fi
+# ضمان حساب المدير في كل تشغيل (افتراضي مدمج، أو من ADMIN_EMAIL/ADMIN_PASSWORD إن وُجدت)
+php artisan app:make-admin || true
 
 # تحسين الأداء للإنتاج (كاش الإعدادات والمسارات والواجهات)
 php artisan config:cache
