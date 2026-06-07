@@ -247,6 +247,22 @@
         .card-title-poster:hover .poster-play{ color:var(--accent-2)!important; text-shadow:0 0 12px rgba(0,229,255,.6); }
 
         .hero{ background:linear-gradient(135deg,rgba(255,46,151,.16),rgba(58,12,163,.42) 50%,#0d0221)!important; border:1px solid rgba(0,229,255,.2)!important; box-shadow:inset 0 0 60px rgba(0,0,0,.45)!important; }
+        /* خطوط VHS خفيفة على البانر */
+        .hero::after{
+            content:""; position:absolute; inset:0; z-index:0; pointer-events:none; border-radius:inherit;
+            background:repeating-linear-gradient(to bottom, rgba(255,255,255,.035) 0 1px, transparent 1px 3px);
+            opacity:.6; animation:vhs 6s linear infinite;
+        }
+        .hero > *{ position:relative; z-index:1; }
+        @keyframes vhs{ from{ background-position:0 0; } to{ background-position:0 3px; } }
+
+        /* توهّج ناعم عند المرور */
+        .nav-link{ transition:color .2s ease, text-shadow .2s ease; }
+        .nav-link:hover{ text-shadow:0 0 8px rgba(0,229,255,.55); }
+        .btn{ transition:transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+        .badge{ transition:filter .2s ease; }
+        .card-title-poster:hover h6{ text-shadow:0 0 8px rgba(255,46,151,.4); }
+        a:hover .bi{ filter:drop-shadow(0 0 5px rgba(0,229,255,.5)); }
 
         .form-control:focus,.form-select:focus{ border-color:var(--accent)!important; box-shadow:0 0 0 .2rem rgba(255,46,151,.2)!important; background-color:#160a2e!important; }
         .bg-dark{ background-color:#160a2e!important; }
