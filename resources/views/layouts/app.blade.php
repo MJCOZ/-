@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', config('app.name', 'MJCOZ TV'))</title>
 
+    {{-- Google AdSense (إعلانات تلقائية) — يُفعّل عند ضبط معرّف الناشر --}}
+    @if (config('services.adsense.client'))
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('services.adsense.client') }}"
+                crossorigin="anonymous"></script>
+    @endif
+
     {{-- تطبيق الثيم المحفوظ قبل الرسم لتفادي الوميض --}}
     <script>
         (function () {

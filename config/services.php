@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    // Google AdSense — ضع معرّف الناشر (ca-pub-XXXXXXXX) لتفعيل الإعلانات
+    'adsense' => [
+        'client' => env('GOOGLE_ADSENSE_CLIENT'),
+    ],
+
 ];

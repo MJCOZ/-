@@ -23,6 +23,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// ads.txt لاعتماد Google AdSense (يُملأ تلقائياً من معرّف الناشر)
+Route::get('/ads.txt', function () {
+    $client = config('services.adsense.client'); // مثل: ca-pub-1234567890123456
+    abort_if(blank($client), 404);
+    $pub = str_replace('ca-', '', $client);
+    return response("google.com, {$pub}, DIRECT, f08c47fec0942fa0\n", 200)
+        ->header('Content-Type', 'text/plain');
+});
+
 Route::get('/titles', [TitleController::class, 'index'])->name('titles.index');
 Route::get('/movies', [TitleController::class, 'movies'])->name('movies.index');
 Route::get('/series', [TitleController::class, 'series'])->name('series.index');
